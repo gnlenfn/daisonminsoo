@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: Connect to NCP & Execute Application
         env:
-          DOCKER_IMAGE_TAG: ${{ needs.build-docker.outputs.docker-image-tag }}
+          DOCKER_IMAGE_TAG: ${{ needs.build-app.outputs.docker-image-tag }}
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.NCP_HOST }}
