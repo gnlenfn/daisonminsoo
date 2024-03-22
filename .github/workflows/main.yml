@@ -28,7 +28,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
+          password: ${{secrets.GHCR_TOKEN}}
 
       # docker image build 퍼블리시
       - name: Publish to docker hub
@@ -40,10 +40,10 @@ jobs:
       - name: Connect to WAS & Execute Application
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.WAS_HOST }}
-          username: ${{ secrets.WAS_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.WAS_SSH_PORT }}
+          host: ${{ secrets.NCP_HOST }}
+          username: ${{ secrets.NCP_USERNAME }}
+          key: ${{ secrets.NCP_SSH_KEY }}
+          port: ${{ secrets.NCP_SSH_PORT }}
           script: |
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
