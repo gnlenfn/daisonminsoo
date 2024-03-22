@@ -32,6 +32,11 @@ jobs:
       - name: Build with gradle
         run: ./gradlew clean build
 
+      - name: Set Seoul timezone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Asia/Seoul"
+
       # GitHub Container Registry 로그인
       - name: Login GitHub Container Registry
         uses: docker/login-action@v2
