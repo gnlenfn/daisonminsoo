@@ -53,5 +53,5 @@ jobs:
           script: |
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
-            docker pull ghrc.io/gnlenfn/daisonminsoo:latest
-            docker run -d -p 8080:8080 --name backend ghrc.io/gnlenfn/daisonminsoo:latest
+            docker pull ghcr.io/gnlenfn/daisonminsoo:latest
+            docker run -d -p 8080:8080 --name backend ghcr.io/gnlenfn/daisonminsoo:latest
