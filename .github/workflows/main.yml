@@ -28,8 +28,8 @@ jobs:
       - name: Build with gradle
         run: ./gradlew clean build
 
-      # docker hub 로그인
-      - name: Login github container registry
+      # GitHub Container Registry 로그인
+      - name: Login GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -37,13 +37,13 @@ jobs:
           password: ${{secrets.GHCR_TOKEN}}
 
       # docker image build 퍼블리시
-      - name: Publish to docker hub
+      - name: Push to Github Container Registry
         run: |
-          docker build -t ghrc.io/gnlenfn/daisonminsoo:latest .
-          docker push ghrc.io/gnlenfn/daionminsoo:lateset
+          docker build -t ghcr.io/gnlenfn/daisonminsoo:latest .
+          docker push ghcr.io/gnlenfn/daisonminsoo:latest
 
       # WAS 인스턴스 접속 & 애플리케이션 실행
-      - name: Connect to WAS & Execute Application
+      - name: Connect to NCP & Execute Application
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.NCP_HOST }}
