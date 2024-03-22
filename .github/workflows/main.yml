@@ -9,8 +9,10 @@ on:
       - main
 
 jobs:
-  build-java:
+  build-app:
     runs-on: ubuntu-latest
+    outputs:
+      docker-image-tag: ${{ steps.set-output-docker-image-tag.outputs.OUTPUT_DOCKER_IMAGE_TAG }}
     steps:
       # SOURCE 단계 - 저장소 Checkout
       - name: Checkout-source code
@@ -30,10 +32,6 @@ jobs:
       - name: Build with gradle
         run: ./gradlew clean build
 
-  build-docker:
-    runs-on: ubuntu-latest
-    needs: [ build-java ]
-    steps:
       # GitHub Container Registry 로그인
       - name: Login GitHub Container Registry
         uses: docker/login-action@v2
@@ -52,16 +50,18 @@ jobs:
           echo "OUTPUT_DOCKER_IMAGE_TAG=$DOCKER_IMAGE_TAG" >> $GITHUB_OUTPUT
 
       # docker image build & push
+      - name: Build Docker image
+        run: |
+          docker build --build-arg VERSION=$DOCKER_IMAGE_TAG -t $DOCKER_REGISTRY:$DOCKER_IMAGE_TAG .      
+
       - name: Push to Github Container Registry
         run: |
-          docker build --build-arg VERSION=$DOCKER_IMAGE_TAG -t $DOCKER_REGISTRY:$DOCKER_IMAGE_TAG .
           docker push $DOCKER_REGISTRY:$DOCKER_IMAGE_TAG
 
   deploy-ncp:
     runs-on: ubuntu-latest
-    needs: [ build-docker ]
+    needs: [ build-app ]
     steps:
-      # WAS 인스턴스 접속 & 애플리케이션 실행
       - name: Connect to NCP & Execute Application
         env:
           DOCKER_IMAGE_TAG: ${{ needs.build-docker.outputs.docker-image-tag }}
