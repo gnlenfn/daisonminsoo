@@ -74,5 +74,5 @@ jobs:
           script: |
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
-            docker pull ghcr.io/gnlenfn/daisonminsoo:latest
+            docker pull ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
             docker run -d -p 8080:8080 --name backend ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
