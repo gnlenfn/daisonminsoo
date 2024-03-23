@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: hackathon
+
+  profiles:
+    include: mail
+
+logging:
+  level:
+    root: debug
