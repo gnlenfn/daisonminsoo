@@ -2,6 +2,11 @@ spring:
   application:
     name: hackathon
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   profiles:
     include: mail
 
