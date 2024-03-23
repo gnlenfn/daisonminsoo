@@ -3,9 +3,7 @@ package com.potential.hackathon.email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -13,13 +11,19 @@ import java.security.NoSuchAlgorithmException;
 @RequiredArgsConstructor
 public class EmailController {
 
-    private final EmailService emailService;
-    private final RandomNumberGenerator generator;
+    private final VerificationService verificationService;
 
     @PostMapping("/mails")
     public ResponseEntity sendVerificationMail(@RequestBody EmailDto body) throws NoSuchAlgorithmException {
-        emailService.sendEmail(body.getEmail(), "인증메일", generator.createCode());
+        verificationService.sendAndSaveCode(body.getEmail());
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/mails/verification")
+    public ResponseEntity verification(@RequestParam String email, @RequestParam String authCode) {
+        boolean result = verificationService.verifyCode(email, authCode);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
