@@ -30,7 +30,10 @@ jobs:
 
       # Spring boot application 빌드
       - name: Build with gradle
-        run: ./gradlew clean build
+        run: |
+          ./gradlew clean 
+          ./gradlew build
+        
 
       - name: Set Seoul timezone
         uses: szenius/set-timezone@v1.2
