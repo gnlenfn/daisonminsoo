@@ -1,6 +1,6 @@
 name: CI/CD
 env:
-  DOCKER_REGISTRY: ghcr.io/gnlenfn/daisonminsoo
+  DOCKER_REGISTRY: ghcr.io/gnlenfn/egomoya
 
 on:
   push:
