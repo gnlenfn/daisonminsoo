@@ -70,17 +70,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build-app ]
     steps:
-      - name: Connect to NCP & Execute Application
-        env:
-          DOCKER_IMAGE_TAG: ${{ needs.build-app.outputs.docker-image-tag }}
-      - uses: actions/checkout@v3
-      - uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.NCP_HOST }}
-          username: ${{ secrets.NCP_USERNAME }}
-          key: ${{ secrets.NCP_SSH_KEY }}
-          port: ${{ secrets.NCP_SSH_PORT }}
-          script: |
-            docker pull ${{ env.DOCKER_REGISTRY }}:latest
-            docker compose down
-            docker compose up -d
+    - uses: actions/checkout@v2
+
+    - uses: alex-ac/github-action-ssh-docker-compose@master
+      name: Docker-Compose Remote Deployment
+      with:
+        ssh_host: ${{ secrets.NCP_HOST }}
+        ssh_private_key: ${{ secrets.NCP_SSH_KEY }}
+        ssh_user: ${{ secrets.NCP_USERNAME }}
+        ssh_port: ${{ secrets.NCP_SSH_PORT }}
