@@ -2,7 +2,6 @@ package com.potential.hackathon.controller;
 
 import com.potential.hackathon.model.User;
 import com.potential.hackathon.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +14,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/alive")
+    public String hello() {
+        return "hello";
     }
 
     @GetMapping

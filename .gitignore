@@ -18,7 +18,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-application-mail.yaml
+application-*.yaml
 
 ### IntelliJ IDEA ###
 .idea
