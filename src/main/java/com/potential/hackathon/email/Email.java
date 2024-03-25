@@ -3,6 +3,6 @@ package com.potential.hackathon.email;
 import lombok.Getter;
 
 @Getter
-public class EmailDto {
+public class Email {
     private String email;
 }

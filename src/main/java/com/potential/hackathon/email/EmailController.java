@@ -14,7 +14,7 @@ public class EmailController {
     private final VerificationService verificationService;
 
     @PostMapping("/mails")
-    public ResponseEntity sendVerificationMail(@RequestBody EmailDto body) throws NoSuchAlgorithmException {
+    public ResponseEntity sendVerificationMail(@RequestBody Email body) throws NoSuchAlgorithmException {
         verificationService.sendAndSaveCode(body.getEmail());
 
         return new ResponseEntity<>(HttpStatus.OK);
