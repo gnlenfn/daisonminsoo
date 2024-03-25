@@ -24,11 +24,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: add application.properties
-        run: |
-          echo ${{secrets.APP_USERNAME}} >> src/main/resources/application.properties
-          echo ${{secrets.APP_GMAIL_TOKEN}} >> src/main/resources/application.properties
-
       # Gradle 실행권한 부여
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew

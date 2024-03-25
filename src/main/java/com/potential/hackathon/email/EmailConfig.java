@@ -19,10 +19,10 @@ public class EmailConfig {
     @Value("${spring.mail.port}")
     private int port;
 
-    @Value("${spring.mail.username}")
+//    @Value("${spring.mail.username}")
     private String username = "test";
 
-    @Value("${spring.mail.password}")
+//    @Value("${spring.mail.password}")
     private String password = "test";
 
     @Value("${spring.mail.properties.mail.smtp.auth}")
