@@ -80,6 +80,7 @@ jobs:
           key: ${{ secrets.NCP_SSH_KEY }}
           port: ${{ secrets.NCP_SSH_PORT }}
           script: |
+            pwd
             docker pull ${{ env.DOCKER_REGISTRY }}:latest
             docker compose down
             docker compose up -d --build
