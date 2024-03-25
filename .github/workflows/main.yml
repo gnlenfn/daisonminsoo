@@ -24,6 +24,11 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
+      - name: add application.properties
+        run: |
+          echo ${{secrets.APP_USERNAME}} >> src/main/resources/application.properties
+          echo ${{secrets.APP_GMAIL_TOKEN}} >> src/main/resources/application.properties
+
       # Gradle 실행권한 부여
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
@@ -52,19 +57,14 @@ jobs:
         run: |
           echo "DOCKER_IMAGE_TAG=$(date +%Y%m%d-%H%M%S)_$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-      - name: Set Docker Image Tag
-        id: set-output-docker-image-tag
-        run: |
-          echo "OUTPUT_DOCKER_IMAGE_TAG=$DOCKER_IMAGE_TAG" >> $GITHUB_OUTPUT
-
       # docker image build & push
       - name: Build Docker image
         run: |
-          docker build --build-arg VERSION=$DOCKER_IMAGE_TAG -t $DOCKER_REGISTRY:$DOCKER_IMAGE_TAG .      
+          docker build -t $DOCKER_REGISTRY:latest .      
 
       - name: Push to Github Container Registry
         run: |
-          docker push $DOCKER_REGISTRY:$DOCKER_IMAGE_TAG
+          docker push $DOCKER_REGISTRY:latest
 
   deploy-ncp:
     runs-on: ubuntu-latest
@@ -80,7 +80,6 @@ jobs:
           key: ${{ secrets.NCP_SSH_KEY }}
           port: ${{ secrets.NCP_SSH_PORT }}
           script: |
-            docker stop backend
-            docker rm backend
-            docker pull ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
-            docker run -d -p 8080:8080 --name backend ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
+            docker pull ${{ env.DOCKER_REGISTRY }}:latest
+            docker compose down
+            docker compose up -d --build
