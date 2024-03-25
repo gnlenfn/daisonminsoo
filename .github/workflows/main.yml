@@ -80,7 +80,7 @@ jobs:
           key: ${{ secrets.NCP_SSH_KEY }}
           port: ${{ secrets.NCP_SSH_PORT }}
           script: |
-            docker stop $(docker ps -a -q) 
-            docker rm $(docker ps -a -q) 
+            docker stop backend
+            docker rm backend
             docker pull ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
             docker run -d -p 8080:8080 --name backend ${{ env.DOCKER_REGISTRY }}:${{ env.DOCKER_IMAGE_TAG }}
