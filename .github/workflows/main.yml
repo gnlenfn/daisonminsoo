@@ -79,3 +79,5 @@ jobs:
         ssh_private_key: ${{ secrets.NCP_SSH_KEY }}
         ssh_user: ${{ secrets.NCP_USERNAME }}
         ssh_port: ${{ secrets.NCP_SSH_PORT }}
+        docker_compose_prefix: test
+        docker_compose_filename: docker-compose.yml
