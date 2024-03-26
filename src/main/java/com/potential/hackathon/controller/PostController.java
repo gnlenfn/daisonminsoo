@@ -23,8 +23,8 @@ public class PostController {
     @PatchMapping("/{postId}")
     public ResponseEntity patchPost(@PathVariable Long postId,
                                     @RequestBody @Validated PostDto postDto) {
-        postService.updatePost(postDto, postId);
-        return ResponseEntity.status(HttpStatus.OK).body(postId);
+        Long result = postService.updatePost(postDto, postId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("/{postId}")
