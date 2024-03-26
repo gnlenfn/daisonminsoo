@@ -1,6 +1,6 @@
 package com.potential.hackathon.service.impl;
 
-import com.potential.hackathon.model.User;
+import com.potential.hackathon.entity.User;
 import com.potential.hackathon.service.UserService;
 import org.springframework.stereotype.Service;
 

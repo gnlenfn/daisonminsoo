@@ -1,6 +1,6 @@
 package com.potential.hackathon.service;
 
-import com.potential.hackathon.model.User;
+import com.potential.hackathon.entity.User;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.potential.hackathon.model;
+package com.potential.hackathon.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
