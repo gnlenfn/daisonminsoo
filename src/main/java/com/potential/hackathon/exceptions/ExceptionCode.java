@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ExceptionCode {
 
-    POST_NOT_FOUND(400, "post not found");
+    POST_NOT_FOUND(404, "post not found");
 
     private int status;
     private String message;

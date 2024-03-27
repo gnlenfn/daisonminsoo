@@ -20,6 +20,12 @@ public class PostController {
 
     private final PostServiceImpl postService;
 
+    @PostMapping("/password/{postId}")
+    public ResponseEntity<Response> validatePassword(@PathVariable Long postId, @RequestBody PostDto body) {
+        Response response = postService.validPassword(body, postId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PatchMapping("/{postId}")
     public ResponseEntity<PostResponseDto> patchPost(@PathVariable Long postId,
                                     @RequestBody @Validated PostDto postDto) {
@@ -50,9 +56,9 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PageResponse<Object>> getAllPosts(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
+            @RequestParam(value = "size", defaultValue = "5") int size) {
 
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(0, (page - 1) * size + size, Sort.by(Sort.Direction.DESC, "id"));
         Slice<PostResponseDto> posts = postService.findAllPosts(pageable);
         PageResponse<Object> result = PageResponse.builder()
                 .data(posts.getContent())
