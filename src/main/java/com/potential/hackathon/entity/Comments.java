@@ -19,6 +19,7 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

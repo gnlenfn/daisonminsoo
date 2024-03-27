@@ -12,4 +12,5 @@ public class CommentDto {
     private String content;
     @NotEmpty
     private Long postId;
+    private String userId;
 }
