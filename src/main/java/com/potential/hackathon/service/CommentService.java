@@ -11,5 +11,5 @@ public interface CommentService {
 
     CommentResponseDto saveComment(CommentDto commentDto);
 
-    Response deleteComment(CommentDto commentDto);
+    Response deleteComment(Long commentId);
 }

@@ -18,7 +18,7 @@ public class PostDto {
     private String content;
     private List<Images> images;
     @NotEmpty
-    private Integer password;
+    private String password;
     @NotEmpty
     private String userId;
 }

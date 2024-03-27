@@ -5,6 +5,8 @@ import com.potential.hackathon.dto.CommentResponseDto;
 import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.entity.Comments;
 import com.potential.hackathon.entity.Posts;
+import com.potential.hackathon.exceptions.BusinessLogicException;
+import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.CommentRepository;
 import com.potential.hackathon.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +48,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Response deleteComment(CommentDto commentDto) {
-        commentRepository.deleteById(commentDto.getId() );
+    public Response deleteComment(Long commentId) {
+        commentRepository.findById(commentId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
+        );
+        commentRepository.deleteById(commentId);
 
         return Response.builder()
                 .result(Boolean.TRUE)
