@@ -9,8 +9,8 @@ import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.PostRepository;
 import com.potential.hackathon.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 
@@ -82,8 +82,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDto> findAllPosts(Pageable pageable) {
-        Page<Posts> posts = postRepository.findAll(pageable);
+    public Slice<PostResponseDto> findAllPosts(Pageable pageable) {
+        Slice<Posts> posts = postRepository.findSliceBy(pageable);
+
         return posts.map(PostResponseDto::findFromPosts);
     }
 

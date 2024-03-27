@@ -3,8 +3,8 @@ package com.potential.hackathon.service;
 import com.potential.hackathon.dto.PostDto;
 import com.potential.hackathon.dto.PostResponseDto;
 import com.potential.hackathon.dto.Response;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 
 public interface PostService {
@@ -16,5 +16,5 @@ public interface PostService {
 
     PostResponseDto getPost(Long id);
 
-    Page<PostResponseDto> findAllPosts(Pageable pageable);
+    Slice<PostResponseDto> findAllPosts(Pageable pageable);
 }
