@@ -77,5 +77,6 @@ jobs:
           port: ${{ secrets.NCP_SSH_PORT }}
           script: |
             docker pull ${{ env.DOCKER_REGISTRY }}:latest
-            docker compose down
-            docker compose up -d
+            docker stop egomoya
+            docker rm egomoya
+            docker run -d --name egomoya --net="host" -p 8080:8080 ghcr.io/gnlenfn/egomoya:latest
