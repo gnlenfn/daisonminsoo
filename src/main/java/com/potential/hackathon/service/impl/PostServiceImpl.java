@@ -87,7 +87,7 @@ public class PostServiceImpl implements PostService {
         return posts.map(PostResponseDto::findFromPosts);
     }
 
-    private Posts findPostId(Long id) {
+    public Posts findPostId(Long id) {
         return postRepository.findById(id).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND) // specify exception
         );
