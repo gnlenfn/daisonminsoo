@@ -2,6 +2,7 @@ package com.potential.hackathon.controller;
 
 import com.potential.hackathon.dto.PostDto;
 import com.potential.hackathon.dto.PostResponseDto;
+import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.service.impl.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,30 +22,30 @@ public class PostController {
     private final PostServiceImpl postService;
 
     @PatchMapping("/{postId}")
-    public ResponseEntity patchPost(@PathVariable Long postId,
+    public ResponseEntity<PostResponseDto> patchPost(@PathVariable Long postId,
                                     @RequestBody @Validated PostDto postDto) {
-        Long result = postService.updatePost(postDto, postId);
+        PostResponseDto result = postService.updatePost(postDto, postId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity deletePost(@PathVariable Long postId,
-                                     @RequestBody @Validated PostDto postDto) {
-        Boolean result = postService.deletePost(postDto, postId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public ResponseEntity<Response> deletePost(@PathVariable Long postId,
+                                               @RequestBody @Validated PostDto postDto) {
+        Response response = postService.deletePost(postDto, postId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity getPost(@PathVariable Long postId) {
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
         PostResponseDto post = postService.getPost(postId);
         return ResponseEntity.status(HttpStatus.OK).body(post);
     }
 
     @PostMapping
-    public ResponseEntity savePost(@RequestBody @Validated PostDto body) {
-        Long postId = postService.createPost(body);
+    public ResponseEntity<PostResponseDto> savePost(@RequestBody @Validated PostDto body) {
+        PostResponseDto post = postService.createPost(body);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(postId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 
     @GetMapping

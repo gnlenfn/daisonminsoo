@@ -2,16 +2,17 @@ package com.potential.hackathon.service;
 
 import com.potential.hackathon.dto.PostDto;
 import com.potential.hackathon.dto.PostResponseDto;
+import com.potential.hackathon.dto.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
 public interface PostService {
-    Long createPost(PostDto postDto);
+    PostResponseDto createPost(PostDto postDto);
 
-    Long updatePost(PostDto postDto, Long postId);
+    PostResponseDto updatePost(PostDto postDto, Long postId);
 
-    Boolean deletePost(PostDto postDto, Long id);
+    Response deletePost(PostDto postDto, Long id);
 
     PostResponseDto getPost(Long id);
 
