@@ -6,21 +6,30 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
 public class CommentResponseDto {
 
+    private Long id;
     private String content;
     private Long postId;
     private String userId;
+    private List<CommentResponseDto> children;
 
     public static CommentResponseDto findFromComment(Comments comment) {
-        return new CommentResponseDto(
-                comment.getContent(),
-                comment.getPosts().getId(),
-                comment.getUserId()
+        return comment.getIsDeleted() ?
+                new CommentResponseDto(comment.getId(), "삭제된 댓글입니다", null, null, null) :
+                new CommentResponseDto(
+                        comment.getId(),
+                        comment.getContent(),
+                        comment.getPosts().getId(),
+                        comment.getUserId(),
+                        comment.getChildren().stream().map(CommentResponseDto::findFromComment).collect(Collectors.toList())
         );
     }
 

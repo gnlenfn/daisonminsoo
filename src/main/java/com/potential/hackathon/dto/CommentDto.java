@@ -1,11 +1,11 @@
 package com.potential.hackathon.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class CommentDto {
     private Long id;
     @NotEmpty
@@ -14,4 +14,5 @@ public class CommentDto {
     private Long postId;
     @NotEmpty
     private String userId;
+    private Long parentId;
 }
