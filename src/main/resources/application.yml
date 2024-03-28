@@ -8,19 +8,14 @@ spring:
       port: 6379
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/egomoya
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-    jpa:
-      hibernate:
-        ddl-auto: update # You can set to create-drop, update, create, or validate
-      show-sql: true # Set to true to show SQL queries in console
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-hibernate:
-  dialect=org:
+  jpa:
     hibernate:
-      dialect:
-  level:
-    root: debug
+      ddl-auto: none
+    show-sql: true # Set to true to show SQL queries in console
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 
