@@ -87,9 +87,8 @@ public class PostServiceImpl implements PostService {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
-        byte[] decodedBytes = Base64.getDecoder().decode(password);
-        String decodedPassword = new String(decodedBytes);
-        if (post.getPassword().equals(decodedPassword)) {
+
+        if (post.getPassword().equals(password)) {
             return Response.builder()
                     .result(Boolean.TRUE)
                     .message("password match")
