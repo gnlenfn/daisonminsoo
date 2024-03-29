@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 
 @Service
 @RequiredArgsConstructor
@@ -81,12 +83,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response validPassword(PostDto postDto, Long postId) {
+    public Response validPassword(String password, Long postId) {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
-
-        if (post.getPassword().equals(postDto.getPassword())) {
+        byte[] decodedBytes = Base64.getDecoder().decode(password);
+        String decodedPassword = new String(decodedBytes);
+        if (post.getPassword().equals(decodedPassword)) {
             return Response.builder()
                     .result(Boolean.TRUE)
                     .message("password match")

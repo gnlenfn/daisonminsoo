@@ -18,5 +18,5 @@ public interface PostService {
 
     Slice<PostResponseDto> findAllPosts(Pageable pageable);
 
-    Response validPassword(PostDto postDto, Long postId);
+    Response validPassword(String password, Long postId);
 }

@@ -5,6 +5,7 @@ import com.potential.hackathon.dto.PostDto;
 import com.potential.hackathon.dto.PostResponseDto;
 import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.service.impl.PostServiceImpl;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,9 @@ public class PostController {
     private final PostServiceImpl postService;
 
     @PostMapping("/password/{postId}")
-    public ResponseEntity<Response> validatePassword(@PathVariable Long postId, @RequestBody PostDto body) {
-        Response response = postService.validPassword(body, postId);
+    public ResponseEntity<Response> validatePassword(@PathVariable @Schema(example = "1") Long postId,
+                                                     @RequestHeader("password") String password) {
+        Response response = postService.validPassword(password, postId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
