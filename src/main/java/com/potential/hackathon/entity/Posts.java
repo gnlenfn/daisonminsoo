@@ -27,7 +27,8 @@ public class Posts {
 
     private String title;
     private String content;
-    private Integer password;
+    private String password;
+    private String userId;
 
     @OneToMany(mappedBy = "posts", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comments> comments = new ArrayList<>();

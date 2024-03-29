@@ -36,7 +36,7 @@
     {
         "password": 1234,
         "title": "title", // 필수값
-        "content": "content", // 필수값
+        "content": "content" // 필수값
     }
     ```
 

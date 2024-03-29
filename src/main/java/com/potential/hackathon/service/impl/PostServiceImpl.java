@@ -9,8 +9,8 @@ import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.PostRepository;
 import com.potential.hackathon.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 
@@ -26,12 +26,14 @@ public class PostServiceImpl implements PostService {
         post.setContent(postDto.getContent());
 //        post.setImages(post.getImages());
         post.setPassword(postDto.getPassword());
+        post.setUserId(postDto.getUserId());
 
         postRepository.save(post);
 
         return PostResponseDto.builder()
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
+                .userId(postDto.getUserId())
                 .build();
 
     }
@@ -41,7 +43,9 @@ public class PostServiceImpl implements PostService {
         Posts post = findPostId(postId);
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
+        post.setUserId(postDto.getUserId());
         post.setPassword(postDto.getPassword());
+
 
         postRepository.save(post);
 
@@ -49,29 +53,21 @@ public class PostServiceImpl implements PostService {
                 .postId(postId)
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
+                .userId(postDto.getUserId())
                 .build();
 
     }
 
     @Override
     public Response deletePost(PostDto postDto, Long id) {
-        Posts post = postRepository.findById(id).orElseGet(Posts::new);
-        if (post.getId() == null) {
-            return Response.builder()
-                    .result(Boolean.FALSE)
-                    .message("There is no post")
-                    .build();
-        }
-        else if (post.getPassword().equals(postDto.getPassword())) {
-            postRepository.deleteById(id);
-            return Response.builder()
-                    .result(Boolean.TRUE)
-                    .message("the post deleted")
-                    .build();
-        }
+        postRepository.findById(id).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
+        );
+        postRepository.deleteById(id);
+
         return Response.builder()
-                .result(Boolean.FALSE)
-                .message("password does not match")
+                .result(Boolean.TRUE)
+                .message("post deleted")
                 .build();
     }
 
@@ -82,9 +78,28 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDto> findAllPosts(Pageable pageable) {
-        Page<Posts> posts = postRepository.findAll(pageable);
+    public Slice<PostResponseDto> findAllPosts(Pageable pageable) {
+        Slice<Posts> posts = postRepository.findSliceBy(pageable);
+
         return posts.map(PostResponseDto::findFromPosts);
+    }
+
+    @Override
+    public Response validPassword(PostDto postDto, Long postId) {
+        Posts post = postRepository.findById(postId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
+        );
+
+        if (post.getPassword().equals(postDto.getPassword())) {
+            return Response.builder()
+                    .result(Boolean.TRUE)
+                    .message("password match")
+                    .build();
+        }
+        return Response.builder()
+                .result(Boolean.FALSE)
+                .message("password does not match")
+                .build();
     }
 
     public Posts findPostId(Long id) {

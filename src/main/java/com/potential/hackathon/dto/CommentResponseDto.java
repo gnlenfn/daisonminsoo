@@ -14,11 +14,13 @@ public class CommentResponseDto {
 
     private String content;
     private Long postId;
+    private String userId;
 
     public static CommentResponseDto findFromComment(Comments comment) {
         return new CommentResponseDto(
                 comment.getContent(),
-                comment.getPosts().getId()
+                comment.getPosts().getId(),
+                comment.getUserId()
         );
     }
 

@@ -15,13 +15,15 @@ public class PostResponseDto {
     private Long postId;
     private String title;
     private String content;
+    private String userId;
     // image, password 추가
 
     public static PostResponseDto findFromPosts(Posts post) {
         return new PostResponseDto(
                 post.getId(),
                 post.getTitle(),
-                post.getContent()
+                post.getContent(),
+                post.getUserId()
         );
     }
 }

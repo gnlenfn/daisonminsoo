@@ -7,6 +7,9 @@ on:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
 
 jobs:
   build-app:
@@ -27,6 +30,14 @@ jobs:
       # Gradle 실행권한 부여
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
+
+      - name: Setup environment variables
+        run: |
+          echo "POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}" >> $GITHUB_ENV
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> $GITHUB_ENV
+          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> $GITHUB_ENV
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
 
       # Spring boot application 빌드
       - name: Build with gradle
@@ -74,5 +85,6 @@ jobs:
           port: ${{ secrets.NCP_SSH_PORT }}
           script: |
             docker pull ${{ env.DOCKER_REGISTRY }}:latest
-            docker compose down
-            docker compose up -d
+            docker stop egomoya
+            docker rm egomoya
+            docker run -d --name egomoya --net="host" -p 8080:8080 ghcr.io/gnlenfn/egomoya:latest

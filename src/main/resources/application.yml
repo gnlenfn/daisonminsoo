@@ -8,19 +8,14 @@ spring:
       port: 6379
 
   datasource:
-    url: jdbc:postgresql://psql:5432/postgres
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    jpa:
-      hibernate:
-        ddl-auto: update # You can set to create-drop, update, create, or validate
-      show-sql: true # Set to true to show SQL queries in console
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-hibernate:
-  dialect=org:
+  jpa:
     hibernate:
-      dialect:
-  level:
-    root: debug
+      ddl-auto: none
+    show-sql: true # Set to true to show SQL queries in console
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 
