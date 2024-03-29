@@ -7,6 +7,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.potential.hackathon.dto.ImageResponseDto;
 import com.potential.hackathon.entity.Images;
+import com.potential.hackathon.entity.Posts;
+import com.potential.hackathon.exceptions.BusinessLogicException;
+import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.ImageRepository;
 import com.potential.hackathon.repository.PostRepository;
 import com.potential.hackathon.service.ImageService;
@@ -42,6 +45,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<Images> uploadFiles(List<MultipartFile> multipartFiles, String filePath, Long postId) {
+        Posts post = postRepository.findById(postId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
+        );
 
         ArrayList<Images> s3files = new ArrayList<>();
 
@@ -70,9 +76,7 @@ public class ImageServiceImpl implements ImageService {
                     Images.builder()
                             .uploadName(uploadFileName)
                             .url(uploadFileUrl)
-                            .posts(postRepository.findById(postId).orElseThrow(
-                                    () -> new NotFoundException("No such post")
-                            ))
+                            .posts(post)
                             .build()
             );
         }

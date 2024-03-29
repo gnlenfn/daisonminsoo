@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-
 
 @Service
 @RequiredArgsConstructor
@@ -102,7 +100,7 @@ public class PostServiceImpl implements PostService {
 
     public Posts findPostId(Long id) {
         return postRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND) // specify exception
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
     }
 }

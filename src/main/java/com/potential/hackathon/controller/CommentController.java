@@ -5,6 +5,7 @@ import com.potential.hackathon.dto.CommentResponseDto;
 import com.potential.hackathon.dto.PageResponse;
 import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.service.impl.CommentServiceImpl;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +46,7 @@ public class CommentController {
 
     @PostMapping("/{postId}")
     @Operation(summary = "댓글 작성")
-    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentDto commentDto,
+    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody @Valid CommentDto commentDto,
                                                           @PathVariable Long postId) {
         CommentResponseDto result = commentService.saveComment(commentDto, postId);
 

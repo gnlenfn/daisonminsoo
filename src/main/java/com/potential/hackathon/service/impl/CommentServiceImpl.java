@@ -56,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Response deleteComment(Long commentId) {
         Comments comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
+                () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND)
         );
         comment.setIsDeleted(!comment.getIsDeleted());
         commentRepository.save(comment);
