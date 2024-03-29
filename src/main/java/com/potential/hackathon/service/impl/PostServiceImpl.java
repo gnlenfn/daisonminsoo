@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response deletePost(PostDto postDto, Long id) {
+    public Response deletePost(Long id) {
         postRepository.findById(id).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );

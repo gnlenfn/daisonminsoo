@@ -17,11 +17,6 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
-    @GetMapping
-    public String getImages() {
-        return "upload";
-    }
-
     @PostMapping("/{postId}")
     public ResponseEntity<List<ImageResponseDto>> uploadImages(
             @RequestPart(value = "files") List<MultipartFile> multipartFiles,
