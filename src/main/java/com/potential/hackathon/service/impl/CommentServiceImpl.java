@@ -33,9 +33,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto saveComment(CommentDto commentDto) {
+    public CommentResponseDto saveComment(CommentDto commentDto, Long postId) {
         Comments comment = new Comments();
-        Posts post = postService.findPostId(commentDto.getPostId());
+        Posts post = postService.findPostId(postId);
 
         comment.setContent(commentDto.getContent());
         comment.setPosts(post);
@@ -45,23 +45,21 @@ public class CommentServiceImpl implements CommentService {
             Comments parentComment = commentRepository.findById(commentDto.getParentId())
                     .orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "There is no parent comment"));
             comment.setParent(parentComment);
+        } else {
+            comment.setParent(null);
         }
         commentRepository.save(comment);
 
-        return CommentResponseDto.builder()
-                .content(commentDto.getContent())
-                .postId(commentDto.getPostId())
-                .userId(comment.getUserId())
-                .build();
+        return CommentResponseDto.findFromComment(comment);
     }
 
     @Override
     public Response deleteComment(Long commentId) {
-        commentRepository.findById(commentId).orElseThrow(
+        Comments comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
-        commentRepository.deleteById(commentId);
-
+        comment.setIsDeleted(!comment.getIsDeleted());
+        commentRepository.save(comment);
         return Response.builder()
                 .result(Boolean.TRUE)
                 .message("comment deleted")

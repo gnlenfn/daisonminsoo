@@ -9,7 +9,7 @@ import org.springframework.data.domain.Slice;
 public interface CommentService {
     Slice<CommentResponseDto> findAllComments(Pageable pageable, Long postId);
 
-    CommentResponseDto saveComment(CommentDto commentDto);
+    CommentResponseDto saveComment(CommentDto commentDto, Long postId);
 
     Response deleteComment(Long commentId);
 }

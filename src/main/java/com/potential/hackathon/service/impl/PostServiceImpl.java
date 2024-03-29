@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +26,6 @@ public class PostServiceImpl implements PostService {
         Posts post = new Posts();
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
-//        post.setImages(post.getImages());
         post.setPassword(postDto.getPassword());
         post.setUserId(postDto.getUserId());
 
@@ -43,9 +44,6 @@ public class PostServiceImpl implements PostService {
         Posts post = findPostId(postId);
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
-        post.setUserId(postDto.getUserId());
-        post.setPassword(postDto.getPassword());
-
 
         postRepository.save(post);
 
@@ -85,12 +83,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response validPassword(PostDto postDto, Long postId) {
+    public Response validPassword(String password, Long postId) {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
 
-        if (post.getPassword().equals(postDto.getPassword())) {
+        if (post.getPassword().equals(password)) {
             return Response.builder()
                     .result(Boolean.TRUE)
                     .message("password match")
