@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @Builder
@@ -17,6 +19,9 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
+    private String uploadName;
 
-
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Posts posts;
 }
