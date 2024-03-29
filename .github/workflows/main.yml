@@ -3,13 +3,13 @@ env:
   DOCKER_REGISTRY: ghcr.io/gnlenfn/egomoya
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
-  push:
-    branches:
-      - main
+#  pull_request:
+#    branches:
+#      - main
+#      - develop
+#  push:
+#    branches:
+#      - main
 
 jobs:
   build-app:
