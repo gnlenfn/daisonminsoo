@@ -5,6 +5,7 @@ import com.potential.hackathon.dto.CommentResponseDto;
 import com.potential.hackathon.dto.PageResponse;
 import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.service.impl.CommentServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -21,6 +22,7 @@ public class CommentController {
     private final CommentServiceImpl commentService;
 
     @GetMapping("/{postId}")
+    @Operation(summary = "댓글 조회")
     public ResponseEntity<PageResponse<Object>> getAllComments(
             @PathVariable Long postId,
             @RequestParam(defaultValue = "1") int page,
@@ -42,6 +44,7 @@ public class CommentController {
     }
 
     @PostMapping("/{postId}")
+    @Operation(summary = "댓글 작성")
     public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentDto commentDto,
                                                           @PathVariable Long postId) {
         CommentResponseDto result = commentService.saveComment(commentDto, postId);
@@ -51,6 +54,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
+    @Operation(summary = "댓글 삭제")
     public ResponseEntity<Response> deleteComment(@PathVariable Long commentId) {
         Response response = commentService.deleteComment(commentId);
 
