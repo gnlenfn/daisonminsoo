@@ -41,9 +41,10 @@ public class CommentController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentDto commentDto) {
-        CommentResponseDto result = commentService.saveComment(commentDto);
+    @PostMapping("/{postId}")
+    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentDto commentDto,
+                                                          @PathVariable Long postId) {
+        CommentResponseDto result = commentService.saveComment(commentDto, postId);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
