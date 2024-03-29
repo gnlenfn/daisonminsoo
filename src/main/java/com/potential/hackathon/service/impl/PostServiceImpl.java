@@ -24,7 +24,6 @@ public class PostServiceImpl implements PostService {
         Posts post = new Posts();
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
-//        post.setImages(post.getImages());
         post.setPassword(postDto.getPassword());
         post.setUserId(postDto.getUserId());
 
@@ -43,9 +42,6 @@ public class PostServiceImpl implements PostService {
         Posts post = findPostId(postId);
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
-        post.setUserId(postDto.getUserId());
-        post.setPassword(postDto.getPassword());
-
 
         postRepository.save(post);
 

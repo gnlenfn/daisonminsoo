@@ -24,11 +24,9 @@ public class PostDto {
 
     private List<Images> images;
 
-    @NotEmpty
     @Schema(description = "게시글 수정/삭제를 위한 비밀번호", example = "123456")
     private String password;
 
-    @NotEmpty
     @Schema(description = "작성자 닉네임", example = "이거모야")
     private String userId;
 }
