@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,14 +19,15 @@ public class PostResponseDto {
     private String title;
     private String content;
     private String userId;
-    // image, password 추가
+    private List<ImageResponseDto> images;
 
     public static PostResponseDto findFromPosts(Posts post) {
         return new PostResponseDto(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUserId()
+                post.getUserId(),
+                post.getImages().stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList())
         );
     }
 }

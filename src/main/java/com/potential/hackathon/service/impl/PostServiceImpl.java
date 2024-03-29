@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response deletePost(PostDto postDto, Long id) {
+    public Response deletePost(Long id) {
         postRepository.findById(id).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
@@ -81,12 +81,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response validPassword(PostDto postDto, Long postId) {
+    public Response validPassword(String password, Long postId) {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
 
-        if (post.getPassword().equals(postDto.getPassword())) {
+        if (post.getPassword().equals(password)) {
             return Response.builder()
                     .result(Boolean.TRUE)
                     .message("password match")
@@ -100,7 +100,7 @@ public class PostServiceImpl implements PostService {
 
     public Posts findPostId(Long id) {
         return postRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND) // specify exception
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
     }
 }

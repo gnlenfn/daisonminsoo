@@ -12,11 +12,11 @@ public interface PostService {
 
     PostResponseDto updatePost(PostDto postDto, Long postId);
 
-    Response deletePost(PostDto postDto, Long id);
+    Response deletePost(Long id);
 
     PostResponseDto getPost(Long id);
 
     Slice<PostResponseDto> findAllPosts(Pageable pageable);
 
-    Response validPassword(PostDto postDto, Long postId);
+    Response validPassword(String password, Long postId);
 }

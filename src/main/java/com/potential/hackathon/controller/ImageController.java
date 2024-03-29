@@ -3,6 +3,11 @@ package com.potential.hackathon.controller;
 import com.potential.hackathon.dto.ImageResponseDto;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.service.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +22,12 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
-    @GetMapping
-    public String getImages() {
-        return "upload";
-    }
-
     @PostMapping("/{postId}")
+    @Operation(summary = "이미지 업로드")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "업로드 성공",
+            content = {@Content(schema = @Schema(implementation = ImageResponseDto.class))})
+    })
     public ResponseEntity<List<ImageResponseDto>> uploadImages(
             @RequestPart(value = "files") List<MultipartFile> multipartFiles,
             @PathVariable Long postId) {
