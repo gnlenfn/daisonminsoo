@@ -19,5 +19,6 @@ public class PageResponse<T> {
         private boolean isLast;
         private int pageNumber;
         private int pageSize;
+        private int total;
     }
 }

@@ -34,6 +34,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Value("${spring.s3.bucket}")
     private String bucketName;
+    @Value("${spring.s3.postImagePath}")
+    private String filePath;
 
     @Override
     public String getUuidFileName(String fileName) {
@@ -42,7 +44,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Images> uploadFiles(List<MultipartFile> multipartFiles, String filePath, Long postId) {
+    public List<Images> uploadFiles(List<MultipartFile> multipartFiles,  Long postId) {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
@@ -98,9 +100,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Response deleteImage(Long imageId) {
-        imageRepository.findById(imageId)
+        Images image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
         imageRepository.deleteById(imageId);
+        String keyName = filePath + "/" + image.getUploadName();
+        amazonS3Client.deleteObject("egomoya", keyName);
         return Response.builder()
                 .result(Boolean.TRUE)
                 .message("image deleted")

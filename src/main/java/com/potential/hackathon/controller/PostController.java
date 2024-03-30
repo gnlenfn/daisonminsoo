@@ -7,11 +7,11 @@ import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.service.impl.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -33,7 +33,7 @@ public class PostController {
     @PatchMapping("/{postId}")
     @Operation(summary = "게시글 수정")
     public ResponseEntity<PostResponseDto> patchPost(@PathVariable Long postId,
-                                    @RequestBody @Validated PostDto postDto) {
+                                    @RequestBody @Valid PostDto postDto) {
         PostResponseDto result = postService.updatePost(postDto, postId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -54,7 +54,7 @@ public class PostController {
 
     @PostMapping
     @Operation(summary = "게시글 작성")
-    public ResponseEntity<PostResponseDto> savePost(@RequestBody @Validated PostDto body) {
+    public ResponseEntity<PostResponseDto> savePost(@RequestBody @Valid PostDto body) {
         PostResponseDto post = postService.createPost(body);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);

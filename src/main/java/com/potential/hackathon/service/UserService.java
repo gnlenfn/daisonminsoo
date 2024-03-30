@@ -22,7 +22,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public Users findUserId(UUID userId) {
-        return userRepository.findByUniqueUserId(userId)
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
@@ -44,7 +44,7 @@ public class UserService {
         return UserResponseDto.findFromUsers(user);
     }
 
-    public Long updateUser(UserPatchDto userPatchDto, UUID userId) {
+    public UUID updateUser(UserPatchDto userPatchDto, UUID userId) {
         Users user = findUserId(userId);
         user.setNickname(userPatchDto.getNickname());
         user.setEmail(userPatchDto.getEmail());
@@ -60,6 +60,6 @@ public class UserService {
 
     public void deleteUser(UUID userId) {
         Users user = findUserId(userId);
-        userRepository.deleteById(user.getId());
+        userRepository.delete(user);
     }
 }

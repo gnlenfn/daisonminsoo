@@ -12,11 +12,13 @@ public class ImageResponseDto {
 
     private String imageUrl;
     private Long postId;
+    private String uploadName;
 
     public static ImageResponseDto findFromImage(Images image) {
         return new ImageResponseDto(
                 image.getUrl(),
-                image.getPosts().getId()
+                image.getPosts().getId(),
+                image.getUploadName()
         );
     }
 }
