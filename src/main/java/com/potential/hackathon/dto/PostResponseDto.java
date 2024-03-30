@@ -1,7 +1,6 @@
 package com.potential.hackathon.dto;
 
 import com.potential.hackathon.entity.Posts;
-import com.potential.hackathon.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter

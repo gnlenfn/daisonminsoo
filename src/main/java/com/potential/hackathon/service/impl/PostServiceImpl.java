@@ -8,16 +8,12 @@ import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.PostRepository;
-import com.potential.hackathon.repository.UserRepository;
 import com.potential.hackathon.service.PostService;
 import com.potential.hackathon.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-
 
 @Service
 @RequiredArgsConstructor

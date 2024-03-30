@@ -1,6 +1,5 @@
 package com.potential.hackathon.controller;
 
-import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.dto.UserDto;
 import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.service.UserService;
