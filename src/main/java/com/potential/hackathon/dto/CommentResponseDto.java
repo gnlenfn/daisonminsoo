@@ -19,7 +19,7 @@ public class CommentResponseDto {
     private Long id;
     private String content;
     private UUID uniqueUserId;
-    private List<CommentResponseDto> children;
+    private List<CommentChildResponseDto> children;
 
     public static CommentResponseDto findFromComment(Comments comment) {
         return comment.getIsDeleted() ?
@@ -28,7 +28,7 @@ public class CommentResponseDto {
                         comment.getId(),
                         comment.getContent(),
                         comment.getUsers().getUniqueUserId(),
-                        comment.getChildren().stream().map(CommentResponseDto::findFromComment).collect(Collectors.toList())
+                        comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList())
         );
     }
 
