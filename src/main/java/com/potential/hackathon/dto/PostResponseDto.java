@@ -1,6 +1,7 @@
 package com.potential.hackathon.dto;
 
 import com.potential.hackathon.entity.Posts;
+import com.potential.hackathon.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class PostResponseDto {
     private Long postId;
     private String title;
     private String content;
-    private UUID userId;
+    private UserResponseDto user;
     private List<ImageResponseDto> images;
 
     public static PostResponseDto findFromPosts(Posts post) {
@@ -27,7 +28,7 @@ public class PostResponseDto {
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUsers().getUniqueUserId(),
+                UserResponseDto.findFromUsers(post.getUsers()),
                 post.getImages().stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList())
         );
     }

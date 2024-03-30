@@ -13,8 +13,6 @@ import java.util.UUID;
 @Setter
 public class PostDto {
 
-    private Long id;
-
     @NotEmpty
     @Schema(description = "게시글 제목", example = "제목입니다")
     private String title;
@@ -27,5 +25,7 @@ public class PostDto {
     private String password;
 
     @Schema(description = "작성자 닉네임", example = "이거모야")
-    private String userId;
+    private String nickname;
+
+    private UUID userId;
 }
