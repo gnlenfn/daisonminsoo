@@ -1,5 +1,6 @@
 package com.potential.hackathon.controller;
 
+import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.dto.UserDto;
 import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.service.UserService;
@@ -32,5 +33,13 @@ public class UserController {
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID userId) {
         UserResponseDto user = userService.findByUniqueUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @DeleteMapping("{userId}")
+    @Operation(summary = "회원 삭제")
+    public ResponseEntity deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
