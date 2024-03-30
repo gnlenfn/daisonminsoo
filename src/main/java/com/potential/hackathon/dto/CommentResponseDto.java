@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,17 +19,19 @@ public class CommentResponseDto {
 
     private Long id;
     private String content;
-    private UUID uniqueUserId;
+    private UserResponseDto user;
     private List<CommentChildResponseDto> children;
+    private LocalDateTime createdAt;
 
     public static CommentResponseDto findFromComment(Comments comment) {
         return comment.getIsDeleted() ?
-                new CommentResponseDto(comment.getId(), "삭제된 댓글입니다", null, null) :
+                new CommentResponseDto(comment.getId(), "삭제된 댓글입니다", UserResponseDto.findFromUsers(comment.getUsers()), null, comment.getCreatedAt()) :
                 new CommentResponseDto(
                         comment.getId(),
                         comment.getContent(),
-                        comment.getUsers().getUniqueUserId(),
-                        comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList())
+                        UserResponseDto.findFromUsers(comment.getUsers()),
+                        comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList()),
+                        comment.getCreatedAt()
         );
     }
 

@@ -33,4 +33,12 @@ public class UserController {
         UserResponseDto user = userService.findByUniqueUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
+
+    @DeleteMapping("{userId}")
+    @Operation(summary = "회원 삭제")
+    public ResponseEntity deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

@@ -3,20 +3,17 @@ package com.potential.hackathon.service.impl;
 import com.potential.hackathon.dto.PostDto;
 import com.potential.hackathon.dto.PostResponseDto;
 import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.PostRepository;
-import com.potential.hackathon.repository.UserRepository;
 import com.potential.hackathon.service.PostService;
 import com.potential.hackathon.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +27,13 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setPassword(postDto.getPassword());
-        post.setUsers(userService.findUserId(UUID.fromString(postDto.getUserId())));
+        post.setUsers(userService.findUserId(postDto.getUserId()));
         postRepository.save(post);
 
         return PostResponseDto.builder()
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
-                .userId(UUID.fromString(postDto.getUserId()))
+                .user(UserResponseDto.findFromUsers(post.getUsers()))
                 .build();
 
     }
@@ -53,7 +50,7 @@ public class PostServiceImpl implements PostService {
                 .postId(postId)
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
-                .userId(UUID.fromString(postDto.getUserId()))
+                .user(UserResponseDto.findFromUsers(post.getUsers()))
                 .build();
 
     }

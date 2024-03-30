@@ -23,7 +23,7 @@ public class CommentChildResponseDto {
                 new CommentChildResponseDto(
                         comment.getId(),
                         comment.getContent(),
-                        comment.getUsers().getUniqueUserId()
+                        comment.getUsers().getId()
                 );
     }
 }

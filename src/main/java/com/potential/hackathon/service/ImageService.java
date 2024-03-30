@@ -10,7 +10,7 @@ import java.util.List;
 public interface ImageService {
     String getUuidFileName(String fileName);
 
-    List<Images> uploadFiles(List<MultipartFile> multipartFiles, String filePath, Long postId);
+    List<Images> uploadFiles(List<MultipartFile> multipartFiles, Long postId);
 
     List<ImageResponseDto> saveImageInfo(List<Images> images, Long postId);
 

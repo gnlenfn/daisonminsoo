@@ -38,6 +38,7 @@ public class CommentController {
                                 .pageNumber(comments.getNumber())
                                 .pageSize(comments.getSize())
                                 .isLast(comments.isLast())
+                                .total(comments.getContent().size())
                                 .build()
                 ).build();
         return ResponseEntity.status(HttpStatus.OK).body(response);

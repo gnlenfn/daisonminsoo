@@ -18,9 +18,8 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private UUID uniqueUserId = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(unique = true)
     private String email;
     private String password;
@@ -31,9 +30,9 @@ public class Users {
     private Boolean requiredTerms;
     private Boolean marketingTerms;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comments> comments = new ArrayList<>();
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Posts> posts = new ArrayList<>();
 
 }
