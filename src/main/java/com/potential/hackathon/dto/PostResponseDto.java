@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -18,7 +19,7 @@ public class PostResponseDto {
     private Long postId;
     private String title;
     private String content;
-    private String userId;
+    private UUID userId;
     private List<ImageResponseDto> images;
 
     public static PostResponseDto findFromPosts(Posts post) {
@@ -26,7 +27,7 @@ public class PostResponseDto {
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUserId(),
+                post.getUsers().getUniqueUserId(),
                 post.getImages().stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList())
         );
     }
