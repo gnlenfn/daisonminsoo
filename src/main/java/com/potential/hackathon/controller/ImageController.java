@@ -33,7 +33,7 @@ public class ImageController {
             @RequestPart(value = "files") List<MultipartFile> multipartFiles,
             @PathVariable Long postId) {
 
-        List<Images> uploadedImages = imageService.uploadFiles(multipartFiles, "egomoya", postId);
+        List<Images> uploadedImages = imageService.uploadFiles(multipartFiles, postId);
         List<ImageResponseDto> response = imageService.saveImageInfo(uploadedImages, postId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
