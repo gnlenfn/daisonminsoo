@@ -25,7 +25,9 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "unique_user_id")
+    private Users users;
     private Boolean isDeleted = false;
     @CreatedDate
     private LocalDateTime createdAt;
@@ -38,7 +40,7 @@ public class Comments {
     @JoinColumn(name = "parent_id")
     private Comments parent;
 
-    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    @OneToMany(mappedBy = "parent")
     private List<Comments> children = new ArrayList<>();
 
 }

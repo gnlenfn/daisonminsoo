@@ -1,6 +1,7 @@
 package com.potential.hackathon.controller;
 
 import com.potential.hackathon.dto.ImageResponseDto;
+import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +27,7 @@ public class ImageController {
     @Operation(summary = "이미지 업로드")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "업로드 성공",
-            content = {@Content(schema = @Schema(implementation = ImageResponseDto.class))})
+                    content = {@Content(schema = @Schema(implementation = ImageResponseDto.class))})
     })
     public ResponseEntity<List<ImageResponseDto>> uploadImages(
             @RequestPart(value = "files") List<MultipartFile> multipartFiles,
@@ -34,6 +35,14 @@ public class ImageController {
 
         List<Images> uploadedImages = imageService.uploadFiles(multipartFiles, "egomoya", postId);
         List<ImageResponseDto> response = imageService.saveImageInfo(uploadedImages, postId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{imageId}")
+    @Operation(summary = "이미지 삭제")
+    public ResponseEntity<Response> deleteImage(@PathVariable Long imageId) {
+        Response response = imageService.deleteImage(imageId);
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

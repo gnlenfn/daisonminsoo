@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 public class CommentDto {
@@ -15,7 +17,7 @@ public class CommentDto {
     private String content;
     @NotBlank
     @Schema(description = "작성자 ID", example = "user_id")
-    private String userId;
+    private String uniqueUserId;
     @Nullable
     @Schema(description = "부모 댓글 ID", example = "2")
     private Long parentId;

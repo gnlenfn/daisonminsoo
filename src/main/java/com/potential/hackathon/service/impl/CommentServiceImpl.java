@@ -10,12 +10,15 @@ import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.exceptions.NotFoundException;
 import com.potential.hackathon.repository.CommentRepository;
 import com.potential.hackathon.service.CommentService;
+import com.potential.hackathon.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 @Service
@@ -24,6 +27,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final PostServiceImpl postService;
     private final CommentRepository commentRepository;
+    private final UserService userService;
 
     @Override
     public Slice<CommentResponseDto> findAllComments(Pageable pageable, Long postId) {
@@ -39,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setContent(commentDto.getContent());
         comment.setPosts(post);
-        comment.setUserId(commentDto.getUserId());
+        comment.setUsers(userService.findUserId(UUID.fromString(commentDto.getUniqueUserId())));
 
         if (commentDto.getParentId() != null) {
             Comments parentComment = commentRepository.findById(commentDto.getParentId())

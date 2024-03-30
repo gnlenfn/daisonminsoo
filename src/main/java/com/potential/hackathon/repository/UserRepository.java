@@ -1,0 +1,12 @@
+package com.potential.hackathon.repository;
+
+import com.potential.hackathon.entity.Users;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<Users, Long> {
+    Optional<Users> findByNickname(String nickname);
+    Optional<Users> findByUniqueUserId(UUID userId);
+}

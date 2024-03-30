@@ -30,7 +30,9 @@ public class Posts {
     private String title;
     private String content;
     private String password;
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "unique_user_id")
+    private Users users;
 
     @OneToMany(mappedBy = "posts", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comments> comments = new ArrayList<>();

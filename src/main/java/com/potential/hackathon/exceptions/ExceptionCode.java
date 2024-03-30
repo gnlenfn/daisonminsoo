@@ -12,6 +12,7 @@ public enum ExceptionCode {
     POST_NOT_FOUND(404, "post id not found"),
     IMAGE_NOT_FOUND(404, "wrong image path"),
     COMMENT_NOT_FOUND(404, "comment id not found"),
+    USER_NOT_FOUND(404, "no such user"),
 
     // 500
     INTERNAL_SERVER_ERROR(500, "internal server error");

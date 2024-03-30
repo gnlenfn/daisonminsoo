@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -17,8 +18,8 @@ public class CommentResponseDto {
 
     private Long id;
     private String content;
-    private String userId;
-    private List<CommentResponseDto> children;
+    private UUID uniqueUserId;
+    private List<CommentChildResponseDto> children;
 
     public static CommentResponseDto findFromComment(Comments comment) {
         return comment.getIsDeleted() ?
@@ -26,8 +27,8 @@ public class CommentResponseDto {
                 new CommentResponseDto(
                         comment.getId(),
                         comment.getContent(),
-                        comment.getUserId(),
-                        comment.getChildren().stream().map(CommentResponseDto::findFromComment).collect(Collectors.toList())
+                        comment.getUsers().getUniqueUserId(),
+                        comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList())
         );
     }
 

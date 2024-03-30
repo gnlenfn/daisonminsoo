@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.potential.hackathon.dto.ImageResponseDto;
+import com.potential.hackathon.dto.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
@@ -20,10 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,6 +94,17 @@ public class ImageServiceImpl implements ImageService {
         }
 
         return images.stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList());
+    }
+
+    @Override
+    public Response deleteImage(Long imageId) {
+        imageRepository.findById(imageId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+        imageRepository.deleteById(imageId);
+        return Response.builder()
+                .result(Boolean.TRUE)
+                .message("image deleted")
+                .build();
     }
 }
 
