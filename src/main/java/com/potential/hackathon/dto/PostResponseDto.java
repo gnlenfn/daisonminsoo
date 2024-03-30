@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,6 +23,8 @@ public class PostResponseDto {
     private String content;
     private UserResponseDto user;
     private List<ImageResponseDto> images;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static PostResponseDto findFromPosts(Posts post) {
         return new PostResponseDto(
@@ -29,7 +32,9 @@ public class PostResponseDto {
                 post.getTitle(),
                 post.getContent(),
                 UserResponseDto.findFromUsers(post.getUsers()),
-                post.getImages().stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList())
+                post.getImages().stream().map(ImageResponseDto::findFromImage).collect(Collectors.toList()),
+                post.getCreatedAt(),
+                post.getUpdatedAt()
         );
     }
 }

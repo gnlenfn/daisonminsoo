@@ -20,7 +20,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-//    private UUID uniqueUserId = UUID.randomUUID();
     @Column(unique = true)
     private String email;
     private String password;
