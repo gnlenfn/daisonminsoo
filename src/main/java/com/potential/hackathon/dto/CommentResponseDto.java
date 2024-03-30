@@ -27,7 +27,7 @@ public class CommentResponseDto {
                 new CommentResponseDto(
                         comment.getId(),
                         comment.getContent(),
-                        comment.getUsers().getUniqueUserId(),
+                        comment.getUsers().getId(),
                         comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList())
         );
     }

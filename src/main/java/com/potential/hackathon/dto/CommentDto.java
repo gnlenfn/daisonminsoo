@@ -17,7 +17,7 @@ public class CommentDto {
     private String content;
     @NotBlank
     @Schema(description = "작성자 ID", example = "user_id")
-    private String uniqueUserId;
+    private String userId;
     @Nullable
     @Schema(description = "부모 댓글 ID", example = "2")
     private Long parentId;

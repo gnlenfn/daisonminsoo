@@ -11,6 +11,7 @@ import com.potential.hackathon.exceptions.NotFoundException;
 import com.potential.hackathon.repository.CommentRepository;
 import com.potential.hackathon.service.CommentService;
 import com.potential.hackathon.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setContent(commentDto.getContent());
         comment.setPosts(post);
-        comment.setUsers(userService.findUserId(UUID.fromString(commentDto.getUniqueUserId())));
+        comment.setUsers(userService.findUserId(UUID.fromString(commentDto.getUserId())));
 
         if (commentDto.getParentId() != null) {
             Comments parentComment = commentRepository.findById(commentDto.getParentId())
@@ -58,6 +59,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Response deleteComment(Long commentId) {
         Comments comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND)
