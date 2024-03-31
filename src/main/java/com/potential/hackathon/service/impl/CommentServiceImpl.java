@@ -81,4 +81,12 @@ public class CommentServiceImpl implements CommentService {
 
         return CommentResponseDto.findFromComment(comment);
     }
+
+    @Override
+    public Long countCommentWithPostId(Long postId) {
+        Posts post = postService.findPostId(postId);
+
+        return commentRepository.countCommentsByPostId(post.getId());
+
+    }
 }

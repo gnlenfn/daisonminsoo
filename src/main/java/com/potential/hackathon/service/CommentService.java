@@ -16,4 +16,6 @@ public interface CommentService {
 
     @Transactional
     CommentResponseDto editComment(CommentDto commentDto, Long commentId);
+
+    Long countCommentWithPostId(Long postId);
 }
