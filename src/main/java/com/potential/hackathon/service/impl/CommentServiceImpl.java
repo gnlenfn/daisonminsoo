@@ -7,7 +7,6 @@ import com.potential.hackathon.entity.Comments;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
-import com.potential.hackathon.exceptions.NotFoundException;
 import com.potential.hackathon.repository.CommentRepository;
 import com.potential.hackathon.service.CommentService;
 import com.potential.hackathon.service.UserService;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
