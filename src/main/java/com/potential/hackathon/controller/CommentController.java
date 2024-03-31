@@ -62,4 +62,21 @@ public class CommentController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+
+    @PatchMapping("/{commentId}")
+    @Operation(summary = "댓글 수정")
+    public ResponseEntity<CommentResponseDto> patchComment(@RequestBody CommentDto commentDto, @PathVariable Long commentId) {
+        CommentResponseDto response = commentService.editComment(commentDto, commentId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/count/{postId}")
+    @Operation(summary = "게시글 당 댓글 수 조회")
+    public ResponseEntity<Long> test(@PathVariable Long postId) {
+        Long result = commentService.countCommentWithPostId(postId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
