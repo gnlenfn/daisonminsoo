@@ -1,5 +1,6 @@
 package com.potential.hackathon.controller;
 
+import com.potential.hackathon.dto.LoginDto;
 import com.potential.hackathon.dto.UserDto;
 import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.service.UserService;
@@ -18,6 +19,14 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/login")
+    @Operation(summary = "email, password로 회원정보 조회")
+    public ResponseEntity<UserResponseDto> login(@RequestBody @Valid LoginDto info) {
+        UserResponseDto response = userService.checkUserInfo(info);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     @PostMapping
     @Operation(summary = "유저 생성, 회원 가입")
