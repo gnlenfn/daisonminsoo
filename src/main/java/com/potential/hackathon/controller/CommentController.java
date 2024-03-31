@@ -73,6 +73,7 @@ public class CommentController {
     }
 
     @GetMapping("/count/{postId}")
+    @Operation(summary = "게시글 당 댓글 수 조회")
     public ResponseEntity<Long> test(@PathVariable Long postId) {
         Long result = commentService.countCommentWithPostId(postId);
 
