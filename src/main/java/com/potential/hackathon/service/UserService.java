@@ -1,5 +1,6 @@
 package com.potential.hackathon.service;
 
+import com.potential.hackathon.dto.LoginDto;
 import com.potential.hackathon.dto.UserDto;
 import com.potential.hackathon.dto.UserPatchDto;
 import com.potential.hackathon.dto.UserResponseDto;
@@ -26,9 +27,18 @@ public class UserService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
-    public Users findByNickname(String nickname) {
-        return userRepository.findByNickname(nickname)
+    public Users findByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
+
+    public UserResponseDto checkUserInfo(LoginDto loginDto) {
+        Users user = findByEmail(loginDto.getEmail());
+
+        if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            return UserResponseDto.findFromUsers(user);
+        }
+        throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);
     }
 
     @Transactional

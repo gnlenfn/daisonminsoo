@@ -8,6 +8,9 @@ public enum ExceptionCode {
     // 400
     INVALID_PARAMETER(400, "wrong parameter"),
 
+    // 401
+    PASSWORD_NOT_MATCH(401, "authentication failed"),
+
     // 404
     POST_NOT_FOUND(404, "post id not found"),
     IMAGE_NOT_FOUND(404, "wrong image path"),
