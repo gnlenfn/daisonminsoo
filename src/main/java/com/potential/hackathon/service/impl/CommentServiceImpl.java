@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
         if (commentDto.getParentId() != null) {
             Comments parentComment = commentRepository.findById(commentDto.getParentId())
-                    .orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "There is no parent comment"));
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
             comment.setParent(parentComment);
         } else {
             comment.setParent(null);

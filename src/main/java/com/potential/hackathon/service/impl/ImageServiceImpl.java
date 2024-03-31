@@ -90,7 +90,7 @@ public class ImageServiceImpl implements ImageService {
             image.setUrl(file.getUrl());
             image.setUploadName(file.getUploadName());
             image.setPosts(postRepository.findById(postId)
-                    .orElseThrow(() -> new NotFoundException("No such post")));
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)));
 
             imageRepository.save(image);
         }
