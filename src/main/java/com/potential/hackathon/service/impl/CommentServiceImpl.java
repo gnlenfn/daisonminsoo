@@ -69,4 +69,16 @@ public class CommentServiceImpl implements CommentService {
                 .message("comment deleted")
                 .build();
     }
+
+    @Override
+    @Transactional
+    public CommentResponseDto editComment(CommentDto commentDto, Long commentId) {
+        Comments comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+
+        comment.setContent(commentDto.getContent());
+        commentRepository.save(comment);
+
+        return CommentResponseDto.findFromComment(comment);
+    }
 }
