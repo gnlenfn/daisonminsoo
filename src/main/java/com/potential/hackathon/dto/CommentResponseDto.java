@@ -24,18 +24,13 @@ public class CommentResponseDto {
     private LocalDateTime updatedAt;
 
     public static CommentResponseDto findFromComment(Comments comment) {
-        return comment.getIsDeleted() ?
-                new CommentResponseDto(comment.getId(), "삭제된 댓글입니다",
-                        UserResponseDto.findFromUsers(comment.getUsers()), null,
-                        comment.getCreatedAt(), comment.getUpdatedAt()
-                ) :
-                new CommentResponseDto(
-                        comment.getId(),
-                        comment.getContent(),
-                        UserResponseDto.findFromUsers(comment.getUsers()),
-                        comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList()),
-                        comment.getCreatedAt(),
-                        comment.getUpdatedAt()
+        return new CommentResponseDto(
+                comment.getId(),
+                comment.getContent(),
+                UserResponseDto.findFromUsers(comment.getUsers()),
+                comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList()),
+                comment.getCreatedAt(),
+                comment.getUpdatedAt()
         );
     }
 

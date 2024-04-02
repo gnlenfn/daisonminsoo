@@ -18,8 +18,9 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private UUID userId = UUID.randomUUID();
     @Column(unique = true)
     private String email;
     private String password;

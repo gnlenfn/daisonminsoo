@@ -31,7 +31,7 @@ public class Posts {
     private String content;
     private String password;
     @ManyToOne
-    @JoinColumn(name = "unique_user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private Users users;
 
     @OneToMany(mappedBy = "posts", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

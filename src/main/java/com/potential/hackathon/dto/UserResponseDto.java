@@ -20,7 +20,7 @@ public class UserResponseDto {
 
     public static UserResponseDto findFromUsers(Users user) {
         return new UserResponseDto(
-                user.getId(),
+                user.getUserId(),
                 user.getEmail(),
                 user.getNickname()
         );

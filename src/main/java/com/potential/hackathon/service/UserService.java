@@ -23,7 +23,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public Users findUserId(UUID userId) {
-        return userRepository.findById(userId)
+        return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
@@ -60,7 +60,7 @@ public class UserService {
         user.setEmail(userPatchDto.getEmail());
         user.setPassword(userPatchDto.getPassword());
 
-        return userRepository.save(user).getId();
+        return userRepository.save(user).getUserId();
     }
 
     public UserResponseDto findByUniqueUserId(UUID userId) {
