@@ -22,6 +22,7 @@ public class CommentResponseDto {
     private List<CommentChildResponseDto> children;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean idDeleted;
 
     public static CommentResponseDto findFromComment(Comments comment) {
         return new CommentResponseDto(
@@ -30,7 +31,8 @@ public class CommentResponseDto {
                 UserResponseDto.findFromUsers(comment.getUsers()),
                 comment.getChildren().stream().map(CommentChildResponseDto::findFromComment).collect(Collectors.toList()),
                 comment.getCreatedAt(),
-                comment.getUpdatedAt()
+                comment.getUpdatedAt(),
+                comment.getIsDeleted()
         );
     }
 

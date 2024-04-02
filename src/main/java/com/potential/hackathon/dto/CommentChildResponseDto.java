@@ -18,6 +18,7 @@ public class CommentChildResponseDto {
     private UserResponseDto user;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isDeleted;
 
     public static CommentChildResponseDto findFromComment(Comments comment) {
         return new CommentChildResponseDto(
@@ -25,7 +26,8 @@ public class CommentChildResponseDto {
                 comment.getContent(),
                 UserResponseDto.findFromUsers(comment.getUsers()),
                 comment.getCreatedAt(),
-                comment.getUpdatedAt()
+                comment.getUpdatedAt(),
+                comment.getIsDeleted()
         );
     }
 }
