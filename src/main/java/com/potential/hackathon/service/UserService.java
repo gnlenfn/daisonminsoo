@@ -54,13 +54,16 @@ public class UserService {
         return UserResponseDto.findFromUsers(user);
     }
 
-    public UUID updateUser(UserPatchDto userPatchDto, UUID userId) {
+    public UserResponseDto updateUser(UserPatchDto userPatchDto, UUID userId) {
         Users user = findUserId(userId);
         user.setNickname(userPatchDto.getNickname());
         user.setEmail(userPatchDto.getEmail());
-        user.setPassword(userPatchDto.getPassword());
+        if (userPatchDto.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userPatchDto.getPassword()));
+        }
 
-        return userRepository.save(user).getUserId();
+        Users response = userRepository.save(user);
+        return UserResponseDto.findFromUsers(response);
     }
 
     public UserResponseDto findByUniqueUserId(UUID userId) {
