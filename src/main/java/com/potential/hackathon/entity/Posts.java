@@ -35,8 +35,10 @@ public class Posts {
     private Users users;
 
     @OneToMany(mappedBy = "posts", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Builder.Default
     private List<Comments> comments = new ArrayList<>();
     @OneToMany(mappedBy = "posts", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Builder.Default
     private List<Images> images = new ArrayList<>();
 
     @CreatedDate

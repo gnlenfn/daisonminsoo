@@ -14,19 +14,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BusinessLogicException.class})
     protected ResponseEntity handleBusinessLoginException(BusinessLogicException exception) {
         return new ResponseEntity<>(new ErrorDto(
-                exception.getExceptionCode().getStatus(),
+                exception.getExceptionCode(),
                 exception.getExceptionCode().getMessage()),
                 HttpStatus.valueOf(exception.getExceptionCode().getStatus()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity validationException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(new ErrorDto(400, "invalid parameter."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto(ExceptionCode.INVALID_PARAMETER, "invalid parameter."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserExistsException.class)
+    protected ResponseEntity userExists(UserExistsException exception) {
+        return new ResponseEntity<>(new ErrorDto(exception.getExceptionCode(), "user already exists"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({Exception.class})
     protected ResponseEntity handleServerException(Exception exception) {
-        return new ResponseEntity(new ErrorDto(INTERNAL_SERVER_ERROR.getStatus(), INTERNAL_SERVER_ERROR.getMessage()),
+        return new ResponseEntity(new ErrorDto(INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
