@@ -37,7 +37,7 @@ jobs:
       - name: Build with gradle
         run: |
           ./gradlew clean 
-          ./gradlew build -x test -Pprofile=secrets
+          ./gradlew build -x test
         
 
       - name: Set Seoul timezone
