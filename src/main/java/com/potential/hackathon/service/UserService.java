@@ -57,9 +57,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setNickname(userDto.getNickname());
 
-        userRepository.save(user);
+        Users save = userRepository.save(user);
 
-        return UserResponseDto.findFromUsers(user);
+        return UserResponseDto.findFromUsers(save);
         }
 
     public UserResponseDto updateUser(UserPatchDto userPatchDto, UUID userId) {

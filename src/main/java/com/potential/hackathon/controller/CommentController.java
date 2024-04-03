@@ -49,7 +49,7 @@ public class CommentController {
     @Operation(summary = "댓글 작성")
     public ResponseEntity<CommentResponseDto> saveComment(@RequestBody @Valid CommentDto commentDto,
                                                           @PathVariable Long postId) {
-        CommentResponseDto result = commentService.saveComment(commentDto, postId);
+        CommentResponseDto result = commentService.createComment(commentDto, postId);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
