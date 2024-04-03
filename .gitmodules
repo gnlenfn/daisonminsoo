@@ -1,3 +1,4 @@
 [submodule "egomoya-secrets"]
 	path = egomoya-secrets
 	url = https://github.com/gnlenfn/egomoya-secrets.git
+    branch = main
