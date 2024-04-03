@@ -18,7 +18,7 @@ jobs:
     steps:
       # SOURCE 단계 - 저장소 Checkout
       - name: Checkout-source code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.ACTION_TOKEN }}
           submodules: true

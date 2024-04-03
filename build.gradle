@@ -40,3 +40,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('copySubmodule', Copy) {
+    from './egomoya-secrets'
+    include '*.yml'
+    into './src/main/resources'
+}
