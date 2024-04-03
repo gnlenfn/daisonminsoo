@@ -1,17 +1,20 @@
 package com.potential.hackathon.service;
 
+import com.potential.hackathon.dto.LoginDto;
 import com.potential.hackathon.dto.UserDto;
 import com.potential.hackathon.dto.UserPatchDto;
 import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.entity.Users;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
+import com.potential.hackathon.exceptions.UserExistsException;
 import com.potential.hackathon.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,17 +25,32 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public Users findUserId(UUID userId) {
-        return userRepository.findById(userId)
+        return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
-    public Users findByNickname(String nickname) {
-        return userRepository.findByNickname(nickname)
+    public Users findByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
+
+    public UserResponseDto checkUserInfo(LoginDto loginDto) {
+        Users user = findByEmail(loginDto.getEmail());
+
+        if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            return UserResponseDto.findFromUsers(user);
+        }
+        throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);
     }
 
     @Transactional
     public UserResponseDto createUser(UserDto userDto) {
+
+        Optional<Users> byEmail = userRepository.findByEmail(userDto.getEmail());
+        if (byEmail.isPresent()) {
+            throw new UserExistsException(ExceptionCode.USER_EXIST);
+        }
+
         Users user = new Users();
 
         user.setEmail(userDto.getEmail());
@@ -42,15 +60,18 @@ public class UserService {
         userRepository.save(user);
 
         return UserResponseDto.findFromUsers(user);
-    }
+        }
 
-    public UUID updateUser(UserPatchDto userPatchDto, UUID userId) {
+    public UserResponseDto updateUser(UserPatchDto userPatchDto, UUID userId) {
         Users user = findUserId(userId);
         user.setNickname(userPatchDto.getNickname());
         user.setEmail(userPatchDto.getEmail());
-        user.setPassword(userPatchDto.getPassword());
+        if (userPatchDto.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userPatchDto.getPassword()));
+        }
 
-        return userRepository.save(user).getId();
+        Users response = userRepository.save(user);
+        return UserResponseDto.findFromUsers(response);
     }
 
     public UserResponseDto findByUniqueUserId(UUID userId) {

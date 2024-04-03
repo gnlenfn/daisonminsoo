@@ -66,7 +66,6 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return Response.builder()
                 .result(Boolean.TRUE)
-                .message("comment deleted")
                 .build();
     }
 
