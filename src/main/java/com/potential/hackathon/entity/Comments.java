@@ -27,7 +27,7 @@ public class Comments {
     private Long id;
     private String content;
     @ManyToOne
-    @JoinColumn(name = "unique_user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private Users users;
     private Boolean isDeleted = false;
     @CreatedDate
