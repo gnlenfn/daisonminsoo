@@ -47,7 +47,7 @@ public class UserService {
     public UserResponseDto createUser(UserDto userDto) {
 
         Optional<Users> byEmail = userRepository.findByEmail(userDto.getEmail());
-        if (byEmail.get().getUserId() != null) {
+        if (byEmail.isPresent()) {
             throw new UserExistsException(ExceptionCode.USER_EXIST);
         }
 
