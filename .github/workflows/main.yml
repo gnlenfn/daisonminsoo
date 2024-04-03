@@ -36,8 +36,8 @@ jobs:
       # Spring boot application 빌드
       - name: Build with gradle
         run: |
-          ./gradlew clean 
-          ./gradlew build -x test
+          ./gradlew copySubmodule 
+          ./gradlew bootJar
         
 
       - name: Set Seoul timezone
