@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto saveComment(CommentDto commentDto, Long postId) {
+    public CommentResponseDto createComment(CommentDto commentDto, Long postId) {
         Comments comment = new Comments();
         Posts post = postService.findPostId(postId);
 
@@ -51,9 +51,9 @@ public class CommentServiceImpl implements CommentService {
         } else {
             comment.setParent(null);
         }
-        commentRepository.save(comment);
+        Comments save = commentRepository.save(comment);
 
-        return CommentResponseDto.findFromComment(comment);
+        return CommentResponseDto.findFromComment(save);
     }
 
     @Override
