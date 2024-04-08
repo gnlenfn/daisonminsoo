@@ -23,10 +23,11 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private UUID userId = UUID.randomUUID();
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String nickname;
     @CreatedDate
     private LocalDateTime createdAt;
