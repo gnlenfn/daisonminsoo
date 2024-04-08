@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/users/signup", "/", "/login", "/swagger-docs").permitAll()
+                        .requestMatchers("/users/signup", "/", "/login", "/v3/api-docs/**","/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
                 // 폼 로그인은 현재 사용하지 않음
 //				.formLogin(formLogin -> formLogin
