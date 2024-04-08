@@ -1,6 +1,5 @@
 package com.potential.hackathon.service;
 
-import com.potential.hackathon.dto.UserResponseDto;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import org.springframework.security.core.userdetails.UserDetails;
 
