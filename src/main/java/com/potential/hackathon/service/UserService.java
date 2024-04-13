@@ -1,9 +1,9 @@
 package com.potential.hackathon.service;
 
-import com.potential.hackathon.dto.LoginDto;
-import com.potential.hackathon.dto.UserDto;
-import com.potential.hackathon.dto.UserPatchDto;
-import com.potential.hackathon.dto.UserResponseDto;
+import com.potential.hackathon.dto.request.LoginDto;
+import com.potential.hackathon.dto.request.UserDto;
+import com.potential.hackathon.dto.request.UserPatchDto;
+import com.potential.hackathon.dto.response.UserResponseDto;
 import com.potential.hackathon.entity.Users;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;

@@ -1,9 +1,9 @@
 package com.potential.hackathon.controller;
 
-import com.potential.hackathon.dto.CommentDto;
-import com.potential.hackathon.dto.CommentResponseDto;
-import com.potential.hackathon.dto.PageResponse;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.request.CommentDto;
+import com.potential.hackathon.dto.response.CommentResponseDto;
+import com.potential.hackathon.dto.response.PageResponse;
+import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.service.impl.CommentServiceImpl;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
