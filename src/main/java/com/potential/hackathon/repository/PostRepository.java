@@ -1,6 +1,5 @@
 package com.potential.hackathon.repository;
 
-import com.potential.hackathon.dto.request.PostDto;
 import com.potential.hackathon.entity.Posts;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
