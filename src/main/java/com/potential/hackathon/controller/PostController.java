@@ -6,6 +6,7 @@ import com.potential.hackathon.dto.response.PostResponseDto;
 import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.service.impl.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -78,5 +81,15 @@ public class PostController {
                 ).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
+    }
+
+    @GetMapping("/scroll")
+    @Operation(
+            summary = "직전 id로부터 size 만큼 게시글 불러오기",
+            description = "첫 조회 시 lastId를 Long의 최댓값 9223372036854775807을 담아서 보내주고 이후 스크롤 트리거 시 lastId를 넣어줍니다."
+    )
+    public List<PostResponseDto> getPostsLowerThanId(@Parameter(name = "lastId", description = "마지막으로 불러온 post id") Long lastId,
+                                                     @Parameter(name = "size", description = "스크롤 시 불러올 post 갯수") @RequestParam int size) {
+        return postService.fetchPostPagesBy(lastId, size);
     }
 }
