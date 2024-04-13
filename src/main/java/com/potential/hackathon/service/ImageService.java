@@ -1,7 +1,7 @@
 package com.potential.hackathon.service;
 
-import com.potential.hackathon.dto.ImageResponseDto;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.response.ImageResponseDto;
+import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
 import org.springframework.web.multipart.MultipartFile;
 

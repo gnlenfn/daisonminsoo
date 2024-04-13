@@ -1,9 +1,9 @@
 package com.potential.hackathon.controller;
 
-import com.potential.hackathon.dto.PageResponse;
-import com.potential.hackathon.dto.PostDto;
-import com.potential.hackathon.dto.PostResponseDto;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.response.PageResponse;
+import com.potential.hackathon.dto.request.PostDto;
+import com.potential.hackathon.dto.response.PostResponseDto;
+import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.service.impl.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;

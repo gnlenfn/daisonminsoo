@@ -1,4 +1,4 @@
-package com.potential.hackathon.dto;
+package com.potential.hackathon.dto.response;
 
 import com.potential.hackathon.entity.Posts;
 import lombok.AllArgsConstructor;

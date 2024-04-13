@@ -1,6 +1,6 @@
 package com.potential.hackathon.exceptions;
 
-import com.potential.hackathon.dto.ErrorDto;
+import com.potential.hackathon.dto.request.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

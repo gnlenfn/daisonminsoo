@@ -1,8 +1,8 @@
 package com.potential.hackathon.service.impl;
 
-import com.potential.hackathon.dto.CommentDto;
-import com.potential.hackathon.dto.CommentResponseDto;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.request.CommentDto;
+import com.potential.hackathon.dto.response.CommentResponseDto;
+import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Comments;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;

@@ -1,4 +1,4 @@
-package com.potential.hackathon.dto;
+package com.potential.hackathon.dto.request;
 
 import com.potential.hackathon.exceptions.ExceptionCode;
 import lombok.AllArgsConstructor;

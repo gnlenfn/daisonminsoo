@@ -1,8 +1,8 @@
 package com.potential.hackathon.service;
 
-import com.potential.hackathon.dto.CommentDto;
-import com.potential.hackathon.dto.CommentResponseDto;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.request.CommentDto;
+import com.potential.hackathon.dto.response.CommentResponseDto;
+import com.potential.hackathon.dto.response.Response;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,7 +1,7 @@
 package com.potential.hackathon.controller;
 
-import com.potential.hackathon.dto.ImageResponseDto;
-import com.potential.hackathon.dto.Response;
+import com.potential.hackathon.dto.response.ImageResponseDto;
+import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;

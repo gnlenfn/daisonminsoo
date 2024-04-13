@@ -3,4 +3,7 @@
 
 - [ ] exception handler
   - 어디서 internal error 나는지 안적어놨네
-  - validation, 
+
+- [ ] README 정리하기
+- [ ] 로그인 기능 (spring security? 소셜 로그인?)
+- [ ] 무한 스크롤 

@@ -1,4 +1,4 @@
-package com.potential.hackathon.dto;
+package com.potential.hackathon.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

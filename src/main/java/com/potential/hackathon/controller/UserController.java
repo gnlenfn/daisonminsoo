@@ -1,9 +1,9 @@
 package com.potential.hackathon.controller;
 
-import com.potential.hackathon.dto.LoginDto;
-import com.potential.hackathon.dto.UserDto;
-import com.potential.hackathon.dto.UserPatchDto;
-import com.potential.hackathon.dto.UserResponseDto;
+import com.potential.hackathon.dto.request.LoginDto;
+import com.potential.hackathon.dto.request.UserDto;
+import com.potential.hackathon.dto.request.UserPatchDto;
+import com.potential.hackathon.dto.response.UserResponseDto;
 import com.potential.hackathon.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
