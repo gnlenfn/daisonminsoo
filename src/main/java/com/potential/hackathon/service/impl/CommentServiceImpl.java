@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Slice<CommentResponseDto> findAllComments(Pageable pageable, Long postId) {
         Posts post = postService.findPostId(postId);
-        Page<Comments> comments = commentRepository.findByPosts(post, pageable);
+        Page<Comments> comments = commentRepository.findByPostsAndParentIsNull(post, pageable);
         return comments.map(CommentResponseDto::findFromComment);
     }
 
