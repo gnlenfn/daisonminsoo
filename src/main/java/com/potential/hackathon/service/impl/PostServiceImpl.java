@@ -3,7 +3,6 @@ package com.potential.hackathon.service.impl;
 import com.potential.hackathon.dto.request.PostDto;
 import com.potential.hackathon.dto.response.PostResponseDto;
 import com.potential.hackathon.dto.response.Response;
-import com.potential.hackathon.dto.response.UserResponseDto;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
