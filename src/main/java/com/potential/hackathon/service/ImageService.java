@@ -20,5 +20,8 @@ public interface ImageService {
     ProfileImages uploadProfileImage(MultipartFile image, UUID userId);
 
     ProfileImageResponseDto saveProfileImageInfo(ProfileImages image, UUID userId);
+
+    ProfileImageResponseDto getUserProfile(UUID userId);
+
     Response deleteImage(Long imageId, boolean isProfile);
 }

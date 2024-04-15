@@ -16,7 +16,7 @@ public class ProfileImages {
     private String url;
     private String uploadName;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
 }

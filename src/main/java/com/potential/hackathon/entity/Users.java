@@ -35,6 +35,8 @@ public class Users {
     private Boolean requiredTerms;
     private Boolean marketingTerms;
 
+    @OneToOne(mappedBy = "users")
+    private ProfileImages profile;
     @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comments> comments = new ArrayList<>();
     @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

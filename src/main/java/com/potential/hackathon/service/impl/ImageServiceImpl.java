@@ -10,6 +10,7 @@ import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.entity.ProfileImages;
+import com.potential.hackathon.entity.Users;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.ImageRepository;
@@ -144,16 +145,29 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ProfileImageResponseDto saveProfileImageInfo(ProfileImages image, UUID userId) {
+        Users user = userRepository.findByUserId(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+
         ProfileImages result = ProfileImages.builder()
                 .url(image.getUrl())
-                .users(userRepository.findByUserId(userId).orElseThrow(
-                        () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
-                ))
+                .users(user)
                 .uploadName(image.getUploadName())
                 .build();
 
         profileImageRepository.save(result);
         return ProfileImageResponseDto.findFromProfileImage(result);
+    }
+
+    @Override
+    public ProfileImageResponseDto getUserProfile(UUID userId) {
+        Users user = userRepository.findByUserId(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+
+        ProfileImages profile = profileImageRepository.findByUsersId(user.getId());
+
+        return ProfileImageResponseDto.findFromProfileImage(profile);
     }
 
     @Override

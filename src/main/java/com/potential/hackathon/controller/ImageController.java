@@ -58,4 +58,12 @@ public class ImageController {
         ProfileImageResponseDto response = imageService.saveProfileImageInfo(profileImages, userId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/profile/{userId}")
+    @Operation(summary = "유저 프로필 조회")
+    public ResponseEntity<ProfileImageResponseDto> getUserProfileImage(@PathVariable UUID userId) {
+        ProfileImageResponseDto userProfile = imageService.getUserProfile(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+    }
 }
