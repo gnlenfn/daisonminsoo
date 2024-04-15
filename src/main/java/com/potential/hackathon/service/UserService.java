@@ -47,7 +47,8 @@ public class UserService {
     public UserResponseDto createUser(UserDto userDto) {
 
         Optional<Users> byEmail = userRepository.findByEmail(userDto.getEmail());
-        if (byEmail.isPresent()) {
+        Optional<Users> byNickname = userRepository.findByNickname(userDto.getNickname());
+        if (byEmail.isPresent() | byNickname.isPresent()) {
             throw new UserExistsException(ExceptionCode.USER_EXIST);
         }
 
