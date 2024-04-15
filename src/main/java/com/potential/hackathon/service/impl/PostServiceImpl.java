@@ -3,7 +3,6 @@ package com.potential.hackathon.service.impl;
 import com.potential.hackathon.dto.request.PostDto;
 import com.potential.hackathon.dto.response.PostResponseDto;
 import com.potential.hackathon.dto.response.Response;
-import com.potential.hackathon.dto.response.UserResponseDto;
 import com.potential.hackathon.entity.Posts;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
@@ -45,14 +44,9 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
 
-        postRepository.save(post);
+        Posts result = postRepository.save(post);
 
-        return PostResponseDto.builder()
-                .postId(postId)
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .user(UserResponseDto.findFromUsers(post.getUsers()))
-                .build();
+        return PostResponseDto.findFromPosts(result);
 
     }
 
