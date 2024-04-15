@@ -45,14 +45,9 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
 
-        postRepository.save(post);
+        Posts result = postRepository.save(post);
 
-        return PostResponseDto.builder()
-                .postId(postId)
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .user(UserResponseDto.findFromUsers(post.getUsers()))
-                .build();
+        return PostResponseDto.findFromPosts(result);
 
     }
 
