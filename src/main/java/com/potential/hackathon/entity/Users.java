@@ -30,9 +30,13 @@ public class Users {
     private String nickname;
     @CreatedDate
     private LocalDateTime createdAt;
+    private String description;
+
     private Boolean requiredTerms;
     private Boolean marketingTerms;
 
+    @OneToOne(mappedBy = "users")
+    private ProfileImages profile;
     @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comments> comments = new ArrayList<>();
     @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

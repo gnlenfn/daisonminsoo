@@ -16,4 +16,5 @@ public class UserDto {
     private String password;
     @NotBlank
     private String nickname;
+    private String description;
 }

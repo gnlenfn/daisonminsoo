@@ -5,15 +5,21 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.potential.hackathon.dto.response.ImageResponseDto;
+import com.potential.hackathon.dto.response.ProfileImageResponseDto;
 import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.entity.Posts;
+import com.potential.hackathon.entity.ProfileImages;
+import com.potential.hackathon.entity.Users;
 import com.potential.hackathon.exceptions.BusinessLogicException;
 import com.potential.hackathon.exceptions.ExceptionCode;
 import com.potential.hackathon.repository.ImageRepository;
 import com.potential.hackathon.repository.PostRepository;
+import com.potential.hackathon.repository.ProfileImageRepository;
+import com.potential.hackathon.repository.UserRepository;
 import com.potential.hackathon.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,16 +31,21 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ImageServiceImpl implements ImageService {
 
     private final AmazonS3Client amazonS3Client;
     private final ImageRepository imageRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final ProfileImageRepository profileImageRepository;
 
     @Value("${spring.s3.bucket}")
     private String bucketName;
     @Value("${spring.s3.postImagePath}")
-    private String filePath;
+    private String postImagePath;
+    @Value("${spring.s3.profileImagePath}")
+    private String profilePath;
 
     @Override
     public String getUuidFileName(String fileName) {
@@ -43,7 +54,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Images> uploadFiles(List<MultipartFile> multipartFiles,  Long postId) {
+    public List<Images> uploadFiles(List<MultipartFile> multipartFiles, Long postId) {
         Posts post = postRepository.findById(postId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND)
         );
@@ -60,7 +71,7 @@ public class ImageServiceImpl implements ImageService {
             objectMetadata.setContentType(multipartFile.getContentType());
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
-                String keyName = filePath + "/" + uploadFileName;
+                String keyName = postImagePath + "/" + uploadFileName;
 
                 amazonS3Client.putObject(
                         new PutObjectRequest(bucketName, keyName, inputStream, objectMetadata)
@@ -68,7 +79,8 @@ public class ImageServiceImpl implements ImageService {
                 );
                 uploadFileUrl = "https://kr.object.ncloudstorage.com/" + bucketName + "/" + keyName;
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
+                throw new BusinessLogicException(ExceptionCode.IMAGE_SERVER_ERROR);
             }
 
             s3files.add(
@@ -98,12 +110,82 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Response deleteImage(Long imageId) {
-        Images image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
-        imageRepository.deleteById(imageId);
-        String keyName = filePath + "/" + image.getUploadName();
-        amazonS3Client.deleteObject("egomoya", keyName);
+    public ProfileImages uploadProfileImage(MultipartFile image, UUID userId) {
+        userRepository.findByUserId(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+
+        String originalFilename = image.getOriginalFilename();
+        String uuidFileName = getUuidFileName(Objects.requireNonNull(originalFilename));
+        String uploadImgUrl = "";
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(image.getSize());
+        objectMetadata.setContentType(image.getContentType());
+
+        String keyName = profilePath + "/" + uuidFileName;
+        try {
+            amazonS3Client.putObject(
+                    new PutObjectRequest(bucketName, keyName, image.getInputStream(), objectMetadata)
+                            .withCannedAcl(CannedAccessControlList.PublicRead)
+            );
+        } catch (IOException e) {
+            throw new BusinessLogicException(ExceptionCode.IMAGE_SERVER_ERROR);
+        }
+        uploadImgUrl = "https://kr.object.ncloudstorage.com/" + bucketName + "/" + keyName;
+
+        return ProfileImages.builder()
+                .url(uploadImgUrl)
+                .users(userRepository.findByUserId(userId).orElseThrow(
+                        () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+                ))
+                .uploadName(uuidFileName)
+                .build();
+    }
+
+    @Override
+    public ProfileImageResponseDto saveProfileImageInfo(ProfileImages image, UUID userId) {
+        Users user = userRepository.findByUserId(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+
+        ProfileImages result = ProfileImages.builder()
+                .url(image.getUrl())
+                .users(user)
+                .uploadName(image.getUploadName())
+                .build();
+
+        profileImageRepository.save(result);
+        return ProfileImageResponseDto.findFromProfileImage(result);
+    }
+
+    @Override
+    public ProfileImageResponseDto getUserProfile(UUID userId) {
+        Users user = userRepository.findByUserId(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+
+        ProfileImages profile = profileImageRepository.findByUsersId(user.getId());
+
+        return ProfileImageResponseDto.findFromProfileImage(profile);
+    }
+
+    @Override
+    public Response deleteImage(Long imageId, boolean isProfile) {
+        if (isProfile) {
+            ProfileImages profile = profileImageRepository.findById(imageId)
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+            profileImageRepository.deleteById(imageId);
+            String keyName = profilePath + "/" + profile.getUploadName();
+            amazonS3Client.deleteObject("egomoya", keyName);
+
+        } else {
+            Images image = imageRepository.findById(imageId)
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
+            imageRepository.deleteById(imageId);
+            String keyName = postImagePath + "/" + image.getUploadName();
+            amazonS3Client.deleteObject("egomoya", keyName);
+        }
         return Response.builder()
                 .result(Boolean.TRUE)
                 .message("image deleted")
