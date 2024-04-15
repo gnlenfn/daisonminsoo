@@ -1,8 +1,11 @@
 package com.potential.hackathon.controller;
 
 import com.potential.hackathon.dto.response.ImageResponseDto;
+import com.potential.hackathon.dto.response.ProfileImageResponseDto;
 import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
+import com.potential.hackathon.entity.ProfileImages;
+import com.potential.hackathon.repository.ProfileImageRepository;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/images")
@@ -40,9 +44,19 @@ public class ImageController {
 
     @DeleteMapping("/{imageId}")
     @Operation(summary = "이미지 삭제")
-    public ResponseEntity<Response> deleteImage(@PathVariable Long imageId) {
-        Response response = imageService.deleteImage(imageId);
+    public ResponseEntity<Response> deleteImage(@PathVariable Long imageId,
+                                                @RequestParam boolean isProfile) {
+        Response response = imageService.deleteImage(imageId, isProfile);
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/profile/{userId}")
+    @Operation(summary = "프로필 사진 업로드")
+    public ResponseEntity<ProfileImageResponseDto> addProfileImage(@RequestPart(value = "files") MultipartFile multipartFile,
+                                                                   @PathVariable UUID userId) {
+        ProfileImages profileImages = imageService.uploadProfileImage(multipartFile, userId);
+        ProfileImageResponseDto response = imageService.saveProfileImageInfo(profileImages, userId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

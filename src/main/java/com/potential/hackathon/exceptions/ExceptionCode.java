@@ -19,7 +19,8 @@ public enum ExceptionCode {
     USER_EXIST(400, "user already exists"),
 
     // 500
-    INTERNAL_SERVER_ERROR(500, "internal server error");
+    INTERNAL_SERVER_ERROR(500, "internal server error"),
+    IMAGE_SERVER_ERROR(500, "image upload error");
 
     private int status;
     private String message;

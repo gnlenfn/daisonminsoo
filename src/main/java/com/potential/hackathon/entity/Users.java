@@ -30,6 +30,8 @@ public class Users {
     private String nickname;
     @CreatedDate
     private LocalDateTime createdAt;
+    private String description;
+
     private Boolean requiredTerms;
     private Boolean marketingTerms;
 
