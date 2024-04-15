@@ -11,9 +11,14 @@ import com.potential.hackathon.repository.PostRepository;
 import com.potential.hackathon.service.PostService;
 import com.potential.hackathon.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +80,16 @@ public class PostServiceImpl implements PostService {
         Slice<Posts> posts = postRepository.findSliceBy(pageable);
 
         return posts.map(PostResponseDto::findFromPosts);
+    }
+
+    public List<PostResponseDto> fetchPostPagesBy(Long lastId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Page<Posts> entityPage = postRepository.findByPostIdLessThanOrderByPostidDesc(lastId, pageRequest);
+        List<Posts> content = entityPage.getContent();
+
+        return content.stream()
+                .map(PostResponseDto::findFromPosts)
+                .collect(Collectors.toList());
     }
 
     @Override
