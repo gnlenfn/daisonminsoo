@@ -14,4 +14,5 @@ public class UserPatchDto {
     @NotBlank
     private String email;
     private String password;
+    private String description;
 }

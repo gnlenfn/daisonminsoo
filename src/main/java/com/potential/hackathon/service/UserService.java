@@ -56,6 +56,7 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setNickname(userDto.getNickname());
+        user.setDescription(userDto.getDescription());
 
         Users save = userRepository.save(user);
 
@@ -66,6 +67,7 @@ public class UserService {
         Users user = findUserId(userId);
         user.setNickname(userPatchDto.getNickname());
         user.setEmail(userPatchDto.getEmail());
+        user.setDescription(userPatchDto.getDescription());
         if (userPatchDto.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userPatchDto.getPassword()));
         }

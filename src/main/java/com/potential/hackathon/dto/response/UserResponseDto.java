@@ -17,12 +17,14 @@ public class UserResponseDto {
     private UUID userId;
     private String email;
     private String nickname;
+    private String description;
 
     public static UserResponseDto findFromUsers(Users user) {
         return new UserResponseDto(
                 user.getUserId(),
                 user.getEmail(),
-                user.getNickname()
+                user.getNickname(),
+                user.getDescription()
         );
     }
 }
