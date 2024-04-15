@@ -5,7 +5,6 @@ import com.potential.hackathon.dto.response.ProfileImageResponseDto;
 import com.potential.hackathon.dto.response.Response;
 import com.potential.hackathon.entity.Images;
 import com.potential.hackathon.entity.ProfileImages;
-import com.potential.hackathon.repository.ProfileImageRepository;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
