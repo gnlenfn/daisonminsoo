@@ -44,7 +44,7 @@ public class ImageController {
     @DeleteMapping("/{imageId}")
     @Operation(summary = "이미지 삭제")
     public ResponseEntity<Response> deleteImage(@PathVariable Long imageId,
-                                                @RequestParam boolean isProfile) {
+                                                @RequestParam(defaultValue = "false") boolean isProfile) {
         Response response = imageService.deleteImage(imageId, isProfile);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
