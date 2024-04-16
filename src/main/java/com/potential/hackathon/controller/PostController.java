@@ -25,13 +25,13 @@ public class PostController {
 
     private final PostServiceImpl postService;
 
-    @PostMapping("/password/{postId}")
-    @Operation(summary = "비밀번호 검증")
-    public ResponseEntity<Response> validatePassword(@PathVariable @Schema(example = "1") Long postId,
-                                                     @RequestHeader("password") String password) {
-        Response response = postService.validPassword(password, postId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
+//    @PostMapping("/password/{postId}")
+//    @Operation(summary = "비밀번호 검증")
+//    public ResponseEntity<Response> validatePassword(@PathVariable @Schema(example = "1") Long postId,
+//                                                     @RequestHeader("password") String password) {
+//        Response response = postService.validPassword(password, postId);
+//        return ResponseEntity.status(HttpStatus.OK).body(response);
+//    }
 
     @PatchMapping("/{postId}")
     @Operation(summary = "게시글 수정")

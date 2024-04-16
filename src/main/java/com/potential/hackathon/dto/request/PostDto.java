@@ -19,11 +19,5 @@ public class PostDto {
     @Schema(description = "게시글 내용", example = "this is contents of posting")
     private String content;
 
-    @Schema(description = "게시글 수정/삭제를 위한 비밀번호", example = "123456")
-    private String password;
-
-    @Schema(description = "작성자 닉네임", example = "이거모야")
-    private String nickname;
-
     private UUID userId;
 }

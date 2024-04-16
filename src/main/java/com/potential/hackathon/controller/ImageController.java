@@ -1,5 +1,6 @@
 package com.potential.hackathon.controller;
 
+import com.potential.hackathon.dto.request.ImageDto;
 import com.potential.hackathon.dto.response.ImageResponseDto;
 import com.potential.hackathon.dto.response.ProfileImageResponseDto;
 import com.potential.hackathon.dto.response.Response;
@@ -8,6 +9,7 @@ import com.potential.hackathon.entity.ProfileImages;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,11 +43,19 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/{imageId}")
-    @Operation(summary = "이미지 삭제")
-    public ResponseEntity<Response> deleteImage(@PathVariable Long imageId,
-                                                @RequestParam(defaultValue = "false") boolean isProfile) {
-        Response response = imageService.deleteImage(imageId, isProfile);
+    @DeleteMapping
+    @Operation(summary = "이미지 삭제",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            examples = @ExampleObject(value = """
+                                    {
+                                      "uploadName": "uuid-string.png",
+                                      "isProfile": true
+                                    }
+                                    """)
+                    )))
+    public ResponseEntity<Response> deleteImage(@RequestBody ImageDto image) {
+        Response response = imageService.deleteImage(image.getUploadName(), image.isProfile());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
