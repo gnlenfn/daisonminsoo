@@ -9,6 +9,7 @@ import com.potential.hackathon.entity.ProfileImages;
 import com.potential.hackathon.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -43,7 +44,16 @@ public class ImageController {
     }
 
     @DeleteMapping
-    @Operation(summary = "이미지 삭제")
+    @Operation(summary = "이미지 삭제",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            examples = @ExampleObject(value = """
+                                    {
+                                      "uploadName": "uuid-string.png",
+                                      "isProfile": true
+                                    }
+                                    """)
+                    )))
     public ResponseEntity<Response> deleteImage(@RequestBody ImageDto image) {
         Response response = imageService.deleteImage(image.getUploadName(), image.isProfile());
 
