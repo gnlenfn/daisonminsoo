@@ -23,5 +23,5 @@ public interface ImageService {
 
     ProfileImageResponseDto getUserProfile(UUID userId);
 
-    Response deleteImage(Long imageId, boolean isProfile);
+    Response deleteImage(String imageId, boolean isProfile);
 }

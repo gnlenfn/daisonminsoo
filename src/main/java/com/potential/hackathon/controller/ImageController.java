@@ -1,5 +1,6 @@
 package com.potential.hackathon.controller;
 
+import com.potential.hackathon.dto.request.ImageDto;
 import com.potential.hackathon.dto.response.ImageResponseDto;
 import com.potential.hackathon.dto.response.ProfileImageResponseDto;
 import com.potential.hackathon.dto.response.Response;
@@ -41,11 +42,10 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/{imageId}")
+    @DeleteMapping
     @Operation(summary = "이미지 삭제")
-    public ResponseEntity<Response> deleteImage(@PathVariable Long imageId,
-                                                @RequestParam(defaultValue = "false") boolean isProfile) {
-        Response response = imageService.deleteImage(imageId, isProfile);
+    public ResponseEntity<Response> deleteImage(@RequestBody ImageDto image) {
+        Response response = imageService.deleteImage(image.getUploadName(), image.isProfile());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

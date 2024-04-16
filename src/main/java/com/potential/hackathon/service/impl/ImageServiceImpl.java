@@ -171,20 +171,21 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Response deleteImage(Long imageId, boolean isProfile) {
-        if (isProfile) {
-            ProfileImages profile = profileImageRepository.findById(imageId)
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
-            profileImageRepository.deleteById(imageId);
-            String keyName = profilePath + "/" + profile.getUploadName();
-            amazonS3Client.deleteObject("egomoya", keyName);
-
-        } else {
-            Images image = imageRepository.findById(imageId)
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
-            imageRepository.deleteById(imageId);
-            String keyName = postImagePath + "/" + image.getUploadName();
-            amazonS3Client.deleteObject("egomoya", keyName);
+    public Response deleteImage(String imageName, boolean isProfile) {
+        try {
+            if (isProfile) {
+                ProfileImages profile = profileImageRepository.findByUploadName(imageName);
+                profileImageRepository.deleteById(profile.getId());
+                String keyName = profilePath + "/" + profile.getUploadName();
+                amazonS3Client.deleteObject("egomoya", keyName);
+            } else {
+                Images image = imageRepository.findByUploadName(imageName);
+                imageRepository.deleteById(image.getId());
+                String keyName = postImagePath + "/" + image.getUploadName();
+                amazonS3Client.deleteObject("egomoya", keyName);
+            }
+        } catch (Exception e) {
+            throw new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND);
         }
         return Response.builder()
                 .result(Boolean.TRUE)
