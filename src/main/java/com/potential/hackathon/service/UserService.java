@@ -29,14 +29,7 @@ public class UserService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
-    public Users findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-    }
-
-    public UserResponseDto checkUserInfo(LoginDto loginDto) {
-        Users user = findByEmail(loginDto.getEmail());
-
+    public UserResponseDto checkUserInfo(LoginDto loginDto, Users user) {
         if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             return UserResponseDto.findFromUsers(user);
         }
@@ -52,20 +45,21 @@ public class UserService {
             throw new UserExistsException(ExceptionCode.USER_EXIST);
         }
 
-        Users user = new Users();
-
-        user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setNickname(userDto.getNickname());
-        user.setDescription(userDto.getDescription());
+        Users user = Users.builder()
+                .email(userDto.getEmail())
+                .userId(UUID.randomUUID())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .nickname(userDto.getNickname())
+                .description(userDto.getDescription())
+                .build();
 
         Users save = userRepository.save(user);
 
         return UserResponseDto.findFromUsers(save);
         }
 
-    public UserResponseDto updateUser(UserPatchDto userPatchDto, UUID userId) {
-        Users user = findUserId(userId);
+    public UserResponseDto updateUser(UserPatchDto userPatchDto) {
+        Users user = findUserId(userPatchDto.getUserId());
         user.setNickname(userPatchDto.getNickname());
         user.setEmail(userPatchDto.getEmail());
         user.setDescription(userPatchDto.getDescription());
@@ -77,13 +71,10 @@ public class UserService {
         return UserResponseDto.findFromUsers(response);
     }
 
-    public UserResponseDto findByUniqueUserId(UUID userId) {
+    public UserResponseDto deleteUser(UUID userId) {
         Users user = findUserId(userId);
-        return UserResponseDto.findFromUsers(user);
-    }
+        userRepository.deleteById(user.getId());
 
-    public void deleteUser(UUID userId) {
-        Users user = findUserId(userId);
-        userRepository.delete(user);
+        return UserResponseDto.findFromUsers(user);
     }
 }
